@@ -1,0 +1,6 @@
+dlugosc = input("Podaj dlugosc prostokata: ")
+szerokosc = input("Podaj szerokosc prostokata: ")
+float(dlugosc)
+float(szerokosc)
+area = float(dlugosc) * float(szerokosc)
+print(f"Pole twojego prostokata wynosi {area}.")
