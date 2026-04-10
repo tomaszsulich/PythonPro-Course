@@ -6,6 +6,14 @@ def pobierz_uzytkownika() -> dict: #informuje o tym, że funkcja zwraca słownik
         
     return dane_uzytkownika
 
+def odmiana_lat(wiek):
+    if wiek == 1:
+        return "rok"
+    elif 2 <= wiek % 10 <= 4 and not 12 <= wiek % 100 <= 14:
+        return "lata"
+    else:
+        return "lat"
+
 users = []
 liczba_uzytkownikow = int(input("Podaj liczbę użytkowników: "))
 
@@ -20,14 +28,7 @@ print("\nPodsumowanie użytkowników:")
 
 for user in users:
     wiek = int(user['wiek'])
-    
-    if wiek == 1:
-        lata = "rok"
-    elif 2 <= wiek % 10 <= 4 and not 12 <= wiek % 100 <= 14:
-        lata = "lata"
-    else:
-        lata = "lat"
-    
+    lata = odmiana_lat(wiek)
     print(
     f"A więc, masz na imię {user['imie']}, "
     f"masz {wiek} {lata} "
