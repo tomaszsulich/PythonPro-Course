@@ -22,4 +22,4 @@ for day in weather_data:
         if is_nice_weather(day['temp'], day['rain']):
             nice_days += 1
         
-print(f"Count of beautiful days equals {nice_days}.")
+print(f"Liczba pięknych dni wynosi {nice_days}.")
