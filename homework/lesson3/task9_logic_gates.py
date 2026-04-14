@@ -4,8 +4,7 @@ def pobierz_bool(komunikat):
      
         if wartosc in (0, 1):
             return bool(wartosc)
-        else:
-            print("Podano niepoprawne dane!")
+        print("Podano niepoprawne dane!")
 
 a_bool = pobierz_bool("Podaj pierwszą wartość (1 lub 0): ")
 b_bool = pobierz_bool("Podaj drugą wartość (1 lub 0): ")
