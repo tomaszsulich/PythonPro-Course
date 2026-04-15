@@ -3,12 +3,12 @@ def calculator(a: float | int, b: float | int) -> None:
     odejmij = a - b
     pomnoz = a * b
     
-    print(dodaj, odejmij, pomnoz, sep = "\n")
-    
-    if b != 0:
-        print(a / b)
+    if b == 0:
+        podziel = "Nie można dzielić przez zero!"
     else:
-        print("Nie można dzielić przez zero!")
+        podziel = a / b
+    
+    print(dodaj, odejmij, pomnoz, podziel, sep = "\n")
 
 
 def main():
