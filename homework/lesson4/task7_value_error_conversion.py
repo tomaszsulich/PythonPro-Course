@@ -1,4 +1,5 @@
 # int("Python")
+int("101")
 
 # Kod nie działał, ponieważ funkcja int() może konwertować tylko stringi,
 # które w całości reprezentują liczbę całkowitą.
