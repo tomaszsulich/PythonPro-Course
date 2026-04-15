@@ -1,6 +1,15 @@
 def oblicz_pole_prostokata(a: float | int, b: float | int) -> float:
     # Tutaj dodaj docstring
-    "Oblicza pole prostokąta o bokach a i b."
+    """
+    Oblicza pole prostokąta na podstawie długości jego boków.
+    
+    Args:
+        a (float | int): długość pierwszego boku
+        b (float | int): długość drugiego boku
+        
+    Returns:
+        float: pole prostokąta
+    """
 
     # Tutaj dodaj komentarz
     # pole to wynik mnożenia boków przez siebie wzajemnie
