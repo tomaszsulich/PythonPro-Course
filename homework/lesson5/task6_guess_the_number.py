@@ -1,11 +1,15 @@
 sekret = 42
 
 while True:
-    liczba = float(input("Podaj liczbę: "))
+    liczba = int(input("Podaj liczbę z zakresu 0-100: "))
+    
     if liczba == sekret:
         print("Gratulacje! Odgadłeś moją liczbę!")
         break
-    print("Niestety, nie myślę o tej liczbie...")
+    elif liczba < sekret:
+        print("Za mało!")
+    else:
+        print("Za dużo!")
     
 # WERSJA Z CAŁKOWICIE RANDOMOWYMI LICZBAMI
 # from random import random
@@ -23,8 +27,6 @@ while True:
 #         print(f"Gratulacje! Odgadłeś moją liczbę! Było to {sekret}.")
 #         break
 #     elif liczba < sekret:
-#         print("Moja liczba jest większa.")
+#         print("Za mało!")
 #     else:
-#         print("Moja liczba jest mniejsza.")
-    
-#     print("Niestety, nie myślę o tej liczbie...")
+#         print("Za dużo!")
