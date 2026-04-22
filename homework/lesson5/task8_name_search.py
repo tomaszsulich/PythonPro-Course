@@ -1,8 +1,8 @@
 imiona = ["Anna", "Jan", "Piotr", "Kasia"]
-szukane = input("Podaj imię: ").lower()
+szukane = input("Podaj imię: ").capitalize() # BARDZIEJ OPTYMALNE OD lower()
 
 for imie in imiona:
-    if imie.lower() == szukane:
+    if imie == szukane:
         print("Znaleziono!")
         break
 else:
