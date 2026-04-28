@@ -1,0 +1,2 @@
+ValueError: could not convert string to float: 'tekst'
+ValueError: could not convert string to float: 'tak'
