@@ -1,7 +1,8 @@
 from pathlib import Path
 
-INPUT_FILE = Path("lesson9/log.txt")
-OUTPUT_FILE = Path("wyniki_wyszukiwania.txt")
+BASE_DIR = Path(__file__).parent
+INPUT_FILE = BASE_DIR / "log.txt"
+OUTPUT_FILE = BASE_DIR / "wyniki_wyszukiwania.txt"
 
 def filtruj_logi(sciezka_we: Path, sciezka_wy: Path, keyword: str) -> int:
     znalezione = 0
