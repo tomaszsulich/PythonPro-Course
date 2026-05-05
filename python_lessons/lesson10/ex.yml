@@ -1,0 +1,16 @@
+imie: pawel
+wiek: 14
+oceny: [1, 2, 3, 4, 5, 6, 6.7]
+
+# tworzenie listy
+ludzie:
+  - imie: pawel
+    wiek: 14
+    oceny: [1, 2, 3, 4, 5, 6, 6.7]
+  - imie: jasiu
+    wiek: 12
+
+# treść serial_test_file.json
+imie: Jakub
+wiek: 22
+oceny: [2.5, 1, 5, 6, x, null]

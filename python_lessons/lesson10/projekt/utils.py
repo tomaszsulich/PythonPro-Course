@@ -1,0 +1,3 @@
+def helpfunc2(): ...
+
+print("utils name: ", __name__)

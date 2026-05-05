@@ -1,0 +1,10 @@
+Level,Date,Message,UserID
+INFO,2026-05-04 08:15:32,Użytkownik zalogował się pomyślnie,1024
+DEBUG,2026-05-04 08:16:01,Wczytywanie danych profilu,1024
+WARN,2026-05-04 08:17:45,Próba dostępu do nieistniejącego zasobu,2048
+ERROR,2026-05-04 08:18:12,Błąd połączenia z bazą danych,1024
+INFO,2026-05-04 08:20:00,Zaktualizowano ustawienia konta,3072
+DEBUG,2026-05-04 08:21:33,Generowanie raportu dziennego,1024
+WARN,2026-05-04 08:23:18,Wykryto nieprawidłowe dane wejściowe,4096
+ERROR,2026-05-04 08:24:50,Nieudana próba zapisania pliku,2048
+INFO,2026-05-04 08:25:22,Wylogowanie użytkownika,1024
