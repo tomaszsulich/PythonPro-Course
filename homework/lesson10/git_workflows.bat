@@ -57,9 +57,6 @@ git commit -m "fix: change hello world message to Polish"
 
 :: task 6
 echo(# Simple multilingual hello world app > app.py
-
-git commit -m "feat: add multilingual hello world support" -m "The app now lets the user choose a language instead of printing only one hardcoded message"
-
 echo def hello_world(language^): >> app.py
 (
 echo     messages = {
@@ -90,7 +87,8 @@ echo(# Simple Polish hello world app >> app.py
 echo message = "Cześć świecie!" >> app.py
 echo print(message) >> app.py
 
-git commit -m "Change hello world message to Polish"
+git add .
+git commit -m "fix: change hello world message to Polish" -m "The app is changed back to a simple Polish message to demonstrate committing new changes before using git reset --hard."
 
 git reset --hard HEAD~1
 :: git reset --hard przywraca repozytorium do dokładnego stanu z wybranego commita. Cofane są nie tylko commity, ale także zmiany
@@ -101,42 +99,58 @@ git reset --hard HEAD~1
 git checkout main
 git checkout -b feature-branch
 
+echo def calculate(a, b, operation^): > calculator.py
+echo     """Perform arithmetic operations and return the result.""" >> calculator.py
 git add .
 git commit -m "feat: add first line of function docstring"
 
+echo     if operation == "/": >> calculator.py
+echo         return a / b if b != 0 else "Cannot divide by zero!" >> calculator.py
 git add .
 git commit -m "fix: update second line of calculator"
 
+echo # git reset --hard removes local changes and restores repository state >> calculator.py
 git add .
 git commit -m "docs: add comment about hard reset"
 
 git rebase -i HEAD~3
-git push
+
+:: In the editor:
+:: 1. Leave the first commit as pick.
+:: 2. Change the second and third commits from pick to squash.
+:: 3. Save and close the editor.
+:: 4. Set the final commit message to:
+:: feat: add calculator changes and hard reset note
+
+git push --force
 
 :: task 8
 git init
+git branch -M main
 
-echo Linia 1 - main version > conflict_example.txt
+echo Line 1 - main version > conflict_example.txt
 git add .
 git commit -m "feat: added first line"
 
 git checkout -b branch-A
-echo Linia 1 - changed in branch-A > conflict_example.txt
+echo Line 1 - main version > conflict_example.txt
+echo Line 2 - from branch-A >> conflict_example.txt
 git add .
-git commit -m "feat: changed first line in branch-A"
+git commit -m "feat: added second line in branch-A"
 
 git checkout main
-echo Linia 1 - changed in main > conflict_example.txt
+echo Line 1 - changed in main > conflict_example.txt
+echo Line 2 - from main >> conflict_example.txt
 git add .
-git commit -m "fix: changed first line in main"
+git commit -m "fix: changed first line and added second line in main"
 
 git merge branch-A
 
-:: Po konflikcie ręcznie rozwiązujemy plik. Zostawiamy jedną wspólną wersję bez markerów <<<<<<< ======= >>>>>>>.
+:: Resolve the conflict manually in conflict_example.txt.
+:: Remove conflict markers and keep the final desired version.
 
-echo Linia 1 - changed after conflict resolution > conflict_example.txt
 git add conflict_example.txt
-git commit -m "fix: update file after conflict resolution"
+git commit -m "fix: resolve merge conflict"
 
 :: task 10
 :: Simulating Git Flow manually without git-flow extension
@@ -148,20 +162,33 @@ git checkout -b develop
 
 
 :: feature branch
-git checkout -b feature-moja-funkcja
+git checkout -b feature-calculator
+
+echo def divide(a, b^): > calculator.py
+echo     return a / b >> calculator.py
+git add .
 git commit -m "docs: added first and second line"
+
+echo def multiply(a, b^): >> calculator.py
+git add .
 git commit -m "fix: update second line"
+
+echo def subtract(a, b^): >> calculator.py
+echo     return a - b >> calculator.py
 git commit -m "feat: append calculator function"
 
 
 :: finish feature
 git checkout develop
-git merhe feature-moja-funkcja
+git merge feature-calculator
 
 
 :: release branch
 git checkout -b release-1.0.0
-git commit -m "fix: append except in calculator"
+
+echo Release fix: division by zero should be handled in calculator.py >> release_notes.txt
+git add .
+git commit -m "fix: document division by zero handling"
 
 
 :: finish release
