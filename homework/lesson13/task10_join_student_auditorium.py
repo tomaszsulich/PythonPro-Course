@@ -8,7 +8,7 @@ def znajdz_sale_studenta(nazwisko: str) -> list[tuple[str, int]]:
         c = conn.cursor()
         
         c.execute("""
-            SELECT a.nazwa_budynku, a.numer_sali
+            SELECT s.imie, s.nazwisko, a.nazwa_budynku, a.numer_sali
             FROM studenci AS s
             JOIN przypisania AS p
             ON s.id_studenta = p.id_studenta
@@ -33,8 +33,8 @@ def main() -> None:
         print("Nie znaleziono studenta lub przypisanego audytorium!")
         return
     
-    for nazwa_budynku, numer_sali in sala_studenta:
-        print(f"Student znajduje się w budynku {nazwa_budynku}, sala {numer_sali}.")
+    for imie, nazwisko, nazwa_budynku, numer_sali in sala_studenta:
+        print(f"Student {imie} {nazwisko} znajduje się w budynku {nazwa_budynku}, sala {numer_sali}.")
     
 
 if __name__ == "__main__":
