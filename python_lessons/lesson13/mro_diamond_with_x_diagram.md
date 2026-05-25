@@ -1,0 +1,11 @@
+```mermaid
+graph TD
+    A[A];
+    A --> B[B];
+    A --> C[C];
+    B --> D[D];
+    C --> E[E];
+    X --> E[E];
+    D --> F[F];
+    E --> F[F];
+```

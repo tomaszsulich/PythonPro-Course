@@ -1,0 +1,19 @@
+class A:
+    ...
+    
+class B(A):
+    ...
+
+class C(A):
+    ...
+
+class D(B):
+    ...
+
+class E(C):
+    ...
+
+class F(D, E):
+    ...
+    
+print(F.mro())
