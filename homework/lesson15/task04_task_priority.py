@@ -16,14 +16,27 @@ def init_db():
         )
         """)
         conn.commit()
-        
-def dodaj_zadanie(opis: str, priorytet: int = 1):
+
+def alter_dodaj_prio():
+    """Dodaje kolumnę priorytet do istniejącej tabeli."""
+    qr = """--sql
+    ALTER TABLE zadania
+    ADD COLUMN priorytet INTEGER DEFAULT 1
+    """
+    with sqlite3.connect(DATABASE_NAME) as conn:
+        cursor = conn.cursor()
+        columns = [col[1] for col in cursor.fetchall()]
+        if 'priorytet' not in columns:
+            cursor.execute(qr)
+            conn.commit()
+            
+def dodaj_zadanie(opis: str, prio: int = 1):
     """Dodaje nowe zadanie do bazy danych."""
     with sqlite3.connect(DATABASE_NAME) as conn:
         cursor = conn.cursor()
         # Używamy placeholderów (?), aby zapobiec SQL Injection
         cursor.execute("INSERT INTO zadania (opis, priorytet) VALUES (?, ?)", 
-        (opis, priorytet))
+        (opis, prio))
         conn.commit()
         
 def pobierz_zadania():
