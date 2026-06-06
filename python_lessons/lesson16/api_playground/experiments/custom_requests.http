@@ -1,0 +1,46 @@
+GET http://127.0.0.1:8000/cats
+
+###
+
+GET http://127.0.0.1:8000/cats/1
+
+###
+
+POST http://127.0.0.1:8000/cats
+Content-Type: application/json
+
+{
+    "id": 3,
+    "name": "Puszek",
+    "age": 4,
+    "color": "grey"
+}
+
+###
+
+PUT http://127.0.0.1:8000/cats/3
+Content-Type: application/json
+
+{
+    "id": 3,
+    "name": "Puszek",
+    "age": 5,
+    "color": "black"
+}
+
+###
+
+PATCH http://127.0.0.1:8000/cats/3
+Content-Type: application/json
+
+{
+    "color": "white"
+}
+
+###
+
+DELETE http://127.0.0.1:8000/cats/3
+
+###
+
+GET http://127.0.0.1:8000/cats/999

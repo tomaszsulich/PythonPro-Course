@@ -1,0 +1,22 @@
+GET http://127.0.0.1:8000/cats
+
+###
+
+POST http://localhost:8000/cats
+content-type: application/json
+
+{
+    "id": 2,
+    "name": "Meow-tzun",
+    "age": 2,
+    "color": "black"
+}
+
+###
+
+PATCH http://localhost:8000/cats/2
+content-type: application/json
+
+{
+    "color": "white"
+}
