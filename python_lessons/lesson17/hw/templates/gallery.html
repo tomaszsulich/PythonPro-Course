@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gallery</title>
+</head>
+
+<body>
+    <h1>Galeria obrazów</h1>
+    <ul>
+        {% for img in imgs %}
+        <img src="{{img['url']}}" height="">
+        <p>{{img["cap"]}}</p>
+        {% endfor %}
+    </ul>
+</body>
+
+</html>
