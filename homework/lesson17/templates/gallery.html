@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gallery</title>
+
+    <style>
+
+        @media (min-width: 800px) {
+            img {
+                max-width: 600px;
+            }
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .gallery {
+            list-style: none;
+            padding: 0;
+        }
+
+        .gallery-item {
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .gallery-image {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .gallery-caption {
+            margin-top: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Galeria obrazów</h1>
+    <ul class="gallery">
+        {% for img in imgs %}
+        <li class="gallery-item">
+                <img class="gallery-image" src="{{ img.url }}" alt="{{ img.cap }}">
+                <p class="gallery-caption">{{ img.cap }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+
+</html>

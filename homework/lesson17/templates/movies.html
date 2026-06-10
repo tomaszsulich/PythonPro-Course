@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- Zadanie 4: dynamiczny tytuł strony -->
+    <title>{{ page_title }}</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        ul {
+            width: 900px;
+            margin: 0 auto;
+        }
+
+        :root {
+            {% for genre, colors in genre_themes.items() %}
+                --{{ genre }}-first-color: {{ colors[0] }};
+                --{{ genre }}-second-color: {{ colors[1] }};
+            {% endfor %}
+        }
+    </style>
+</head>
+
+<body>
+    <h1>{{ page_title }}</h1>
+
+    <ul>
+        <!-- Zadanie 3: lista filmów wyświetlana jako lista nieuporządkowana
+             Zadanie 5: kolorowanie wykorzystuje numerację w obrębie gatunku
+             zamiast loop.index. -->
+
+        {% for movie in movies %}
+            
+            {% if movie.genre_index % 2 == 0 %}
+                <li class="movie {{ movie.genre}} even">
+            {% else %}
+                <li class="movie {{ movie.genre }} odd">
+            {% endif %}
+                
+                {{ movie.title }} - {{ movie.description }}
+
+                </li>
+
+        {% endfor %}
+    </ul>
+
+</body>
+</html>

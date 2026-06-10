@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Rejestracja</title>
+    <style>
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        body {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-right: 15px;
+        }
+
+        .submit-button {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Rejestracja na wydarzenie</h1>
+
+    {% if errors %}
+        <ul>
+            {% for error in errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="post">
+        <span class="form-group">
+            <label for="name">Imię:</label>
+            <input type="text" name="name" id="name" required>
+        </span>
+
+        <span class="form-group">
+            <label for="email">Email:</label>
+            <input type="text" name="email" id="email" required>
+        </span>
+
+        <button class="submit-button" type="submit">Zarejestruj</button>
+    </form>
+
+</body>
+</html>

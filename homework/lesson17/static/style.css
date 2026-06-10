@@ -1,0 +1,38 @@
+/* Rozszerzenie zadania 5: wspólne style elementów listy filmów */
+.movie {
+    padding: 8px 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+}
+
+.comedy.odd {
+    background-color: var(--comedy-first-color);
+}
+
+.comedy.even {
+    background-color: var(--comedy-second-color);
+}
+
+.animation.odd {
+    background-color: var(--animation-first-color);
+}
+
+.animation.even {
+    background-color: var(--animation-second-color);
+}
+
+.cinema.odd {
+    background-color: var(--cinema-first-color);
+}
+
+.cinema.even {
+    background-color: var(--cinema-second-color);
+}
+
+.classic.odd {
+    background-color: var(--classic-first-color);
+}
+
+.classic.even {
+    background-color: var(--classic-second-color);
+}

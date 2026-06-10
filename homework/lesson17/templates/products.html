@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Baza danych produktów</title>
+
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        body {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .sort-group {
+            margin-right: 25px;
+        }
+
+        .sort-button {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    {% if products %}
+    <h1>Produkty</h1>
+        <form method="get">
+            <span class="sort-group">
+                <label for="currency">Wyświetlaj ceny jako:</label>
+                <select name="currency" id="currency">
+                    <option value="PLN">PLN</option>
+                    <option value="EUR">EUR</option>
+                    <option value="USD">USD</option>
+                    <option value="GBP">GBP</option>
+                </select>
+            </span>
+
+            <span class="sort-group">
+                <label for="sort_field">Sortuj po:</label>
+                <select name="sort_field" id="sort_field">
+                    <option value="name">Nazwie</option>
+                    <option value="company">Firmie</option>
+                    <option value="price">Cenie</option>
+                </select>
+            </span>
+
+            <span class="sort-group">
+                <label for="direction">Kolejność:</label>
+                <select name="direction" id="direction">
+                    <option value="asc">Rosnąco</option>
+                    <option value="desc">Malejąco</option>
+                </select>
+
+                <button class="sort-button" type="submit">Zastosuj</button>
+            </span>
+        </form>
+
+        <p>Łącznie produktów: {{ product_count }}</p>
+
+        <table>
+            <tr>
+                <th>Nazwa</th>
+                <th>Firma</th>
+                <th>Cena</th>
+            </tr>
+
+            {% for product in products %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ product.company }}</td>
+                <td>{{ "%.2f"|format(product.price) }} {{ currency }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+    {% else %}
+        <p>Brak produktów w bazie danych.</p>
+    {% endif %}
+</body>

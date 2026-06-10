@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ page_title }}</title>
+
+    <style>
+        .sort-group {
+            margin-right: 25px;
+        }
+
+        .sort-button {
+            margin-left: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        body {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>{{ page_title }}</h1>
+
+    <form method="get">        
+
+        <span class="sort-group">
+            <label for="sort_1">Sortuj po:</label>
+            <select name="sort_1" id="sort_1">
+                <option value="">Brak</option>
+                <option value="title">Tytuł</option>
+                <option value="author">Autor</option>
+                <option value="year">Rok</option>
+            </select>
+        </span>
+        
+        <span class="sort-group">
+            <label for="sort_2">Następnie po:</label>
+            <select name="sort_2" id="sort_2">
+                <option value="">Brak</option>
+                <option value="title">Tytuł</option>
+                <option value="author">Autor</option>
+                <option value="year">Rok</option>
+            </select>
+        </span>
+        
+        <span class="sort-group">
+            <label for="sort_3">Na końcu po:</label>
+            <select name="sort_3" id="sort_3">
+                <option value="">Brak</option>
+                <option value="title">Tytuł</option>
+                <option value="author">Autor</option>
+                <option value="year">Rok</option>
+            </select>
+        </span>
+
+        <span class="sort-group">
+            <label for="order">Kolejność:</label>
+
+            <select name="order" id="order">
+                <option value="asc">Rosnąco</option>
+                <option value="desc">Malejąco</option>
+            </select>
+
+            <button class="sort-button" type="submit">Sortuj</button>
+        </span>
+
+    </form>
+
+    {% for book in books %}
+        <section>
+            <h2>{{ book.title }}</h2>
+            <p>Autor: {{ book.author }}</p>
+            <p>Rok wydania: {{ book.year }}</p>
+        </section>
+    {% endfor %}
+
+</body>
+</html>
