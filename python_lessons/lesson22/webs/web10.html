@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Dynamiczna lista</title>
+</head>
+<body>
+
+    <main>
+        <h1>Lista zakupów</h1>
+        <ul></ul>
+    </main>
+
+    <script>
+        const produkty = [
+            "Chleb",
+            "Mleko",
+            "Jajka",
+            "Masło"
+        ];
+
+        const lista = document.querySelector("ul");
+
+        for (const produkt of produkty) {
+            const elementListy = document.createElement("li");
+
+            elementListy.textContent = produkt;
+
+            lista.appendChild(elementListy);
+        }
+    </script>
+
+</body>
+</html>

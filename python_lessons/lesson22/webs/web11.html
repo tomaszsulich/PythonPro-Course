@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Click Event</title>
+</head>
+<body>
+
+    <main>
+        <h1>Licznik kliknięć</h1>
+
+        <button>Kliknij mnie</button>
+
+        <p>Liczba kliknięć: <span>0</span></p>
+    </main>
+
+    <script>
+        const button = document.querySelector("button");
+        const counter = document.querySelector("span");
+
+        let clicks = 0;
+
+        button.addEventListener("click", function () {
+            clicks++;
+            counter.textContent = clicks;
+        });
+    </script>
+
+</body>
+</html>

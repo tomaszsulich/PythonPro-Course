@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Fetch GET</title>
+</head>
+<body>
+
+    <main>
+        <h1>Losowy użytkownik</h1>
+        <button>Pobierz dane</button>
+        <pre></pre>
+    </main>
+
+    <script>
+        const button = document.querySelector("button");
+        const output = document.querySelector("pre");
+
+        button.addEventListener("click", function () {
+            fetch("https://jsonplaceholder.typicode.com/users/1")
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    output.textContent = JSON.stringify(data, null, 2);
+                });
+        });
+    </script>
+
+</body>
+</html>
