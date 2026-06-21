@@ -18,7 +18,7 @@ print(f"Utworzono artykuł o ID: {new_article.id}")
 
 
 
-r"le22\articles\static\articles\styles.css"
+r"django_articles_templates\articles\static\articles\styles.css"
 # Django interpretują wszystkie foldery static ze wszystkich aplikacji jako jeden folder
 # dlatego używamy:
 # nazwa_aplikacji/static/nazwa_aplikacji/...

@@ -2,8 +2,7 @@
 from django.db import models as m
 # pod komentarzem ze ścieżką do danego pliku wypisujemy kod, jaki umieszczamy w tym pliku
 
-
-# le22\le22\settings.py
+# django_articles_templates\django_articles_templates\settings.py
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
