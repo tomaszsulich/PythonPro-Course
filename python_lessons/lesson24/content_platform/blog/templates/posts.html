@@ -1,0 +1,12 @@
+<h2>Lista postów</h2>
+
+{% if posts %}
+{% for post in posts %}
+    <article>
+        <h3>{{ post.title }} {{ post.category.name }}</h3>
+        <p>{{ post.author.name }}</p>
+    </article>
+{% endfor %}
+{% else %}
+<p>There is no posts with selected category.</p>
+{% endif %}
