@@ -67,6 +67,9 @@ class Command(BaseCommand):
             
         Post.objects.bulk_create(posts)
         
+        for post in posts:
+            post.tags.set(sample_tags())
+        
         self.stdout.write(self.style.SUCCESS(f"{len(posts)} posts created."))
         
         self.stdout.write(self.style.SUCCESS("Data seeding complete."))
