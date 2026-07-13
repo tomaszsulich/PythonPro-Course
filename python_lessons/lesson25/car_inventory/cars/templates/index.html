@@ -4,3 +4,12 @@
 {% block content %}
 <h1>Index / home page</h1>
 {% endblock content %}
+
+{% if user.is_staff %}
+<a href="{% url 'admin:index' %}">Panel Administracyjny</a>
+{% endif %}
+<p>baba</p>
+
+<p>Zalogowany jako: <strong>{{ user.username }}</strong></p>
+<p>Czy to staff? <strong>{{ user.is_staff|yesno:"Tak,Nie" }}</strong></p>
+<p>Czy to superuser? <strong>{{ user.is_superuser }}</strong></p>

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Lista użytkowników (Tylko dla personelu)</h2>
+<ul>
+    {% for u in users %}
+    <li>{{ u.username }} ({{ u.email }}) - Staff: {{ u.is_staff }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
