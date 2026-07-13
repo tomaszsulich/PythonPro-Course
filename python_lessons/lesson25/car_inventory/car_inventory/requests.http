@@ -1,0 +1,14 @@
+POST localhost:8000/api/tasks
+Content-Type: application/json
+
+{
+    "name": "robert"
+}
+
+PATCH localhost:8000/users/2111
+
+Content-Type: application/json
+
+{
+    "email": ...
+}
