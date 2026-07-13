@@ -1,0 +1,5 @@
+# krok po kroku jak tworzymy
+# ewentualnie screenshoty pokazujące,
+# że działa i wrzucić do repo
+
+request.GET[] # w nawiasach kwadratowych parametry
