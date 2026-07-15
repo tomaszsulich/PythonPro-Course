@@ -1,0 +1,18 @@
+POST http://127.0.0.1:8000/auth/jwt/create/
+Content-Type: application/json
+
+{
+    "username": "wielka_pardubicka",
+    "password": "wielka_pardubickauh98u989u089u0j0j"
+}
+
+
+###
+
+
+POST http://127.0.0.1:8000/auth/jwt/verify/
+Content-Type: application/json
+
+{
+    "token": "PASTE_REFRESH_TOKEN_HERE"
+}
