@@ -1,0 +1,36 @@
+@baseUrl = http://localhost:8000
+@accessToken = PASTE_ACCESS_TOKEN_HERE
+@refreshToken = PASTE_REFRESH_TOKEN_HERE
+
+### REJESTRACJA
+POST {{baseUrl}}/auth/users/
+Content-Type: application/json
+
+{
+    "username": "testuser",
+    "password": "testpassword23!"
+}
+
+### LOGOWANIE
+POST {{baseUrl}}/auth/jwt/create/
+Content-Type: application/json
+
+{
+    "username": "testuser",
+    "password": "testpassword23!"
+}
+
+### CHRONIONY ENDPOINT
+GET {{baseUrl}}/api/transactions/current_user/
+
+### CHRONIONY ENDPOINT z tokenem
+GET {{baseUrl}}/api/transactions/current_user/
+Authorization: Bearer {{accessToken}}
+
+### ODŚWIEŻANIE TOKENU
+POST {{baseUrl}}/auth/jwt/refresh/
+Content-Type: application/json
+
+{
+    "refresh": "{{refreshToken}}"
+}
