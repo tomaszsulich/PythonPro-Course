@@ -1,0 +1,6 @@
+from django.core.cache import cache
+cache.clear()
+
+lub
+pip install django-extensions
+python manage.py clear_cache

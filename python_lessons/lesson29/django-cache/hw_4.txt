@@ -1,0 +1,10 @@
+from django.core.cache import cache
+
+cache.set('my_key', 'hello_world', 30)
+
+print(cache.get('my_key'))
+
+import time
+time.sleep(30)
+
+print(cache.get('my_key'))
