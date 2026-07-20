@@ -1,0 +1,1 @@
+start celery -A core worker --pool=solo
