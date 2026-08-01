@@ -11,6 +11,18 @@ from app.db import db
 
 app = create_app()
 
+
+@app.route("/test-db")
+def test_db() -> str:
+    """Testuje połączenie z bazą"""
+    try:
+        db.session.execute(db.text("SELECT 1"))
+        return "Połączenie OK!"
+    except Exception as e:
+        return f"Błąd połączenia: {str(e)}"
+    
+
+
 # Surowe dane wejściowe
 EQUIPMENT_DATA = [
     {
@@ -76,6 +88,54 @@ ROOMS_DATA = [
         "hourly_rate": 60,
         "equipment_names": ["Tablica"]
     },
+    {
+        "name": "Sala Spotkań",
+        "capacity": 15,
+        "floor": 2,
+        "description": "Sala do spotkań z klientami",
+        "hourly_rate": 70,
+        "equipment_names": ["Projektor", "Klimatyzacja"]
+    },
+    {
+        "name": "Sala Szkoleniowa",
+        "capacity": 30,
+        "floor": 3,
+        "description": "Sala do szkoleń i warsztatów",
+        "hourly_rate": 120,
+        "equipment_names": ["Projektor", "Klimatyzacja"]
+    },
+    {
+        "name": "Sala Prezentacyjna",
+        "capacity": 40,
+        "floor": 3,
+        "description": "Sala do prezentacji i pokazów",
+        "hourly_rate": 130,
+        "equipment_names": ["Projektor", "Wideokonferencja", "Klimatyzacja"]
+    },
+    {
+        "name": "Sala Spotkań Zarządu",
+        "capacity": 12,
+        "floor": 4,
+        "description": "Ekskluzywna sala dla zarządu",
+        "hourly_rate": 200,
+        "equipment_names": ["Projektor", "Wideokonferencja", "Klimatyzacja"]
+    },
+    {
+        "name": "Sala Testowa",
+        "capacity": 5,
+        "floor": 1,
+        "description": "Sala do testów i eksperymentów",
+        "hourly_rate": 30,
+        "equipment_names": ["Projektor"]
+    },
+    {
+        "name": "Sala Spotkań Zespołu",
+        "capacity": 18,
+        "floor": 2,
+        "description": "Sala do spotkań zespołowych i burzy mózgów",
+        "hourly_rate": 75,
+        "equipment_names": ["Tablica", "Klimatyzacja"]
+    },
 ]
 
 USERS_DATA = [
@@ -102,6 +162,42 @@ USERS_DATA = [
         "email": "maria@firma.pl",
         "department": "IT",
         "is_admin": True
+    },
+    {
+        "name": "Krzysztof Zieliński",
+        "email": "krzysztof@firma.pl",
+        "department": "Finance",
+        "is_admin": False
+    },
+    {
+        "name": "Ewa Kaczmarek",
+        "email": "ewa@firma.pl",
+        "department": "Marketing",
+        "is_admin": False
+    },
+    {
+        "name": "Tomasz Lewandowski",
+        "email": "tomasz@firma.pl",
+        "department": "IT",
+        "is_admin": False
+    },
+    {
+        "name": "Agnieszka Wójcik",
+        "email": "agata@firma.pl",
+        "department": "HR",
+        "is_admin": False
+    },
+    {
+        "name": "Michał Kamiński",
+        "email": "michal@firma.pl",
+        "department": "IT",
+        "is_admin": False
+    },
+    {
+        "name": "Joanna Szymańska",
+        "email": "joanna@firma.pl",
+        "department": "HR",
+        "is_admin": False
     },
 ]
 
@@ -161,7 +257,7 @@ def seed_database():
                                                  second=0,
                                                  microsecond=0)
 
-        for _ in range(20):
+        for _ in range(1000):
             room = random.choice(rooms)
             user = random.choice(users)
 

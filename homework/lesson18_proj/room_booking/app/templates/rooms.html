@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Sale - System Rezerwacji{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">🏢 Sale</h1>
+
+<div class="card">
+    <div class="card-header">
+        <h5>📈 Wykorzystanie sal (ostatnie 30 dni)</h5>
+    </div>
+
+    <div class="card-body">
+        {% for room in room_utilization %}
+        <div class="mb-3">
+            <div class="d-flex justify-content-between">
+                <span>{{ room.room }}</span>
+                <span>
+                    {{ room.utilization }}%
+                    ({{ room.hours }}h)
+                </span>
+            </div>
+
+            <div class="utilization-bar">
+                <div
+                    class="utilization-fill"
+                    style="width: {{ room.utilization }}%"
+                ></div>
+            </div>
+        </div>
+        {% else %}
+        <p class="text-muted mb-0">
+            Brak danych o wykorzystaniu sal.
+        </p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

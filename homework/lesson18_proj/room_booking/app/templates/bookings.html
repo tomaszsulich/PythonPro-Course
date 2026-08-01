@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Rezerwacje - System Rezerwacji{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">📅 Rezerwacje</h1>
+
+<div class="card">
+    <div class="card-header">
+        <h5>🕐 Najbliższe rezerwacje (24h)</h5>
+    </div>
+
+    <div class="card-body">
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Godzina</th>
+                    <th>Sala</th>
+                    <th>Tytuł</th>
+                    <th>Osoba</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for booking in upcoming %}
+                <tr>
+                    <td>
+                        {{ booking.start_time.strftime('%H:%M') }}
+                    </td>
+                    <td>{{ booking.room.name }}</td>
+                    <td>
+                        {{ booking.title[:30] }}
+                        {% if booking.title|length > 30 %}
+                            ...
+                        {% endif %}
+                    </td>
+                    <td>{{ booking.user.name }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td
+                        colspan="4"
+                        class="text-muted text-center"
+                    >
+                        Brak rezerwacji
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

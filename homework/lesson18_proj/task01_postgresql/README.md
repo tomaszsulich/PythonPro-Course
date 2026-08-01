@@ -1,0 +1,1 @@
+PostgreSQL był już zainstalowany w systemie. Instalator wykrył istniejącą instalację i wykorzystał dotychczasową konfigurację oraz katalog danych, dzięki czemu nie było konieczności ponownego konfigurowania serwera.

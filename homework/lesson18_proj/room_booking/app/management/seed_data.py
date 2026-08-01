@@ -55,6 +55,54 @@ ROOM_DATA = [
         60,
         ["Tablica"],
     ),
+    (
+        "Sala Spotkań",
+        15,
+        2,
+        "Sala do spotkań z klientami",
+        70,
+        ["Projektor", "Klimatyzacja"]
+    ),
+    (
+        "Sala Szkoleniowa",
+        30,
+        3,
+        "Sala do szkoleń i warsztatów",
+        120,
+        ["Projektor", "Klimatyzacja"]
+    ),
+    (
+        "Sala Prezentacyjna",
+        40,
+        3,
+        "Sala do prezentacji i pokazów",
+        130,
+        ["Projektor", "Wideokonferencja", "Klimatyzacja"]
+    ),
+    (
+        "Sala Spotkań Zarządu",
+        12,
+        4,
+        "Ekskluzywna sala dla zarządu",
+        200,
+        ["Projektor", "Wideokonferencja", "Klimatyzacja"]
+    ),
+    (
+        "Sala Testowa",
+        5,
+        1,
+        "Sala do testów i eksperymentów",
+        30,
+        ["Projektor"]
+    ),
+    (
+        "Sala Spotkań Zespołu",
+        18,
+        2,
+        "Sala do spotkań zespołowych i burzy mózgów",
+        75,
+        ["Tablica", "Klimatyzacja"]
+    ),
 ]
 
 USER_DATA = [
@@ -62,6 +110,12 @@ USER_DATA = [
     ("Anna Nowak", "anna@firma.pl", "HR", False),
     ("Piotr Wiśniewski", "piotr@firma.pl", "Marketing", False),
     ("Maria Dąbrowska", "maria@firma.pl", "IT", True),
+    ("Krzysztof Zieliński", "krzysztof@firma.pl", "Finanse", False),
+    ("Ewa Kaczmarek", "ewa@firma.pl", "Marketing", False),
+    ("Tomasz Lewandowski", "tomasz@firma.pl", "IT", False),
+    ("Agnieszka Wójcik", "agata@firma.pl", "HR", False),
+    ("Michał Kamiński", "michal@firma.pl", "IT", False),
+    ("Joanna Szymańska", "joanna@firma.pl", "HR", False),
 ]
 
 BOOKING_TITLES = [
@@ -75,8 +129,8 @@ BOOKING_TITLES = [
     "Demo dla klienta",
 ]
 
-ROOM_WEIGHTS = [20, 30, 35, 15]
-USER_WEIGHTS = [35, 20, 25, 20]
+ROOM_WEIGHTS = [20, 30, 35, 15, 10, 25, 30, 5, 10, 20]
+USER_WEIGHTS = [35, 20, 25, 20, 15, 10, 30, 25, 20, 15]
 HOURS = [9, 10, 11, 12, 13, 14, 15, 16]
 HOUR_WEIGHTS = [4, 8, 10, 7, 5, 8, 5, 3]
 DURATIONS = [1, 2, 3]
