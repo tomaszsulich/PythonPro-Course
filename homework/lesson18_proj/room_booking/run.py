@@ -166,7 +166,7 @@ USERS_DATA = [
     {
         "name": "Krzysztof Zieliński",
         "email": "krzysztof@firma.pl",
-        "department": "Finance",
+        "department": "Finanse",
         "is_admin": False
     },
     {
