@@ -1,0 +1,99 @@
+# notatnik/views.py
+from django.core.paginator import Paginator
+from django.shortcuts import get_object_or_404, render
+
+from .models import Note
+
+
+def note_list(request):
+    notes = Note.objects.all()
+    paginator = Paginator(notes, 3)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    return render(
+        request,
+        "notatnik/note_list.html",
+        {"page_obj": page_obj},
+    )
+
+
+def note_detail(request, note_id):
+    note = get_object_or_404(Note, id=note_id)
+
+    return render(
+        request,
+        "notatnik/note_detail.html",
+        {"note": note},
+    )
+
+
+<!-- notatnik/templates/notatnik/note_list.html -->
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista notatek</title>
+</head>
+<body>
+
+<h1>Lista notatek</h1>
+
+<ul>
+    {% for note in page_obj %}
+        <li>
+            <a href="/note/{{ note.id }}/">
+                {{ note.title }}
+            </a>
+        </li>
+    {% empty %}
+        <li>Brak notatek.</li>
+    {% endfor %}
+</ul>
+
+{% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}">Poprzednia</a>
+{% endif %}
+
+<span>
+    Strona {{ page_obj.number }} z {{ page_obj.paginator.num_pages }}
+</span>
+
+{% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">Następna</a>
+{% endif %}
+
+</body>
+</html>
+
+
+# Stworzenie przykładowych notatek
+python manage.py shell
+
+from notatnik.models import Note
+
+Note.objects.create(
+    title="Zakupy",
+    content="Kupić mleko, pieczywo i kawę.",
+)
+
+Note.objects.create(
+    title="Nauka Django",
+    content="Powtórzyć widoki, szablony i dynamiczne trasy.",
+)
+
+Note.objects.create(
+    title="Pomysły na projekt",
+    content="Przygotować prostą aplikację do zarządzania zadaniami.",
+)
+
+Note.objects.create(
+    title="Sprawy do załatwienia",
+    content="Odpisać na wiadomości i uporządkować dokumenty.",
+)
+
+Note.objects.create(
+    title="Plan na weekend",
+    content="Spacer, książka i dokończenie homeworka.",
+)

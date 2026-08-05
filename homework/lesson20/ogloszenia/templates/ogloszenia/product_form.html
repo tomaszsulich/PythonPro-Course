@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Dodaj produkt</title>
+</head>
+<body>
+
+<h1>Dodaj produkt</h1>
+
+<form method="post">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">Dodaj produkt</button>
+</form>
+
+</body>
+</html>

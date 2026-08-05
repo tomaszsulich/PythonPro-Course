@@ -1,0 +1,90 @@
+# ogloszenia/views.py
+from django.http import HttpResponse
+from django.shortcuts import render
+
+from .models import Product
+
+
+def info(request):
+    return HttpResponse("Informacje o stronie")
+
+
+def rules(request):
+    return HttpResponse("Regulamin")
+
+
+def user_profile(request, username):
+    return HttpResponse(f"Witaj na profilu, {username}!")
+
+
+def product_list(request):
+    products = Product.objects.all()
+
+    return render(
+        request,
+        "ogloszenia/product_list.html",
+        {"products": products},
+    )
+    
+    
+# ogloszenia/urls.py
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path("info/", views.info, name="info"),
+    path("rules/", views.rules, name="rules"),
+    path("user/<str:username>/", views.user_profile, name="user_profile"),
+    path("products/", views.product_list, name="product_list"),
+]
+
+
+<!-- ogloszenia/templates/ogloszenia/product_list.html -->
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Produkty</title>
+</head>
+<body>
+
+<h1>Lista produktów</h1>
+
+<ul>
+    {% for product in products %}
+        <li>
+            <strong>{{ product.name }}</strong>
+            - {{ product.price }} zł
+        </li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>
+
+
+# Uruchomienie powłoki Django
+python manage.py shell
+
+
+# Dodanie przykładowych danych
+from ogloszenia.models import Product
+
+Product.objects.create(
+    name="Klawiatura mechaniczna",
+    description="Klawiatura RGB z przełącznikami Red",
+    price=299.99,
+)
+
+Product.objects.create(
+    name="Mysz bezprzewodowa",
+    description="Ergonomiczna mysz Bluetooth",
+    price=149.99,
+)
+
+Product.objects.create(
+    name="Monitor 27 cali",
+    description="Monitor IPS QHD",
+    price=1299.99,
+)

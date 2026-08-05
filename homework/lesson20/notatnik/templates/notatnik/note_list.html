@@ -1,0 +1,38 @@
+<!-- notatnik/templates/notatnik/note_list.html -->
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista notatek</title>
+</head>
+<body>
+
+<h1>Lista notatek</h1>
+
+<ul>
+    {% for note in page_obj %}
+        <li>
+            <a href="/note/{{ note.id }}/">
+                {{ note.title }}
+            </a>
+        </li>
+    {% empty %}
+        <li>Brak notatek.</li>
+    {% endfor %}
+</ul>
+
+{% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}">Poprzednia</a>
+{% endif %}
+
+<span>
+    Strona {{ page_obj.number }} z {{ page_obj.paginator.num_pages }}
+</span>
+
+{% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">Następna</a>
+{% endif %}
+
+</body>
+</html>

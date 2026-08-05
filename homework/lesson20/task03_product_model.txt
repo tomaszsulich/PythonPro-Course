@@ -1,0 +1,38 @@
+# Wygenerowanie plików migracji
+python manage.py makemigrations
+
+OUTPUT:
+Migrations for 'ogloszenia':
+  ogloszenia/migrations/0003_product.py
+    + Create model Product
+
+
+# Zastosowanie migracji do bazy danych
+python manage.py migrate
+
+OUTPUT:
+Operations to perform:
+    Apply all migrations: admin, auth, contenttypes, ogloszenia, sessions
+Running migrations:
+    Applying ogloszenia.0003_product... OK
+
+
+# Sprawdzenie statusu migracji
+python manage.py showmigrations
+
+OUTPUT:
+admin
+ [X] 0001_initial
+ ...
+auth
+ [X] 0001_initial
+ ...
+contenttypes
+ [X] 0001_initial
+ ...
+ogloszenia
+ [X] 0001_initial
+ [X] 0002_alter_ogloszenie_options
+ [X] 0003_product
+sessions
+ [X] 0001_initial

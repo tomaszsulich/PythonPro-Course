@@ -1,0 +1,94 @@
+# ogloszenia/forms.py
+from django import forms
+from .models import Product
+
+
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ["name", "description", "price"]
+
+
+# ogloszenia/views.py
+from django.http import HttpResponse
+from django.shortcuts import redirect, render
+
+from .models import Product
+from .forms import ProductForm
+
+
+def info(request):
+    return HttpResponse("Informacje o stronie")
+
+
+def rules(request):
+    return HttpResponse("Regulamin")
+
+
+def user_profile(request, username):
+    return HttpResponse(f"Witaj na profilu, {username}!")
+
+
+def product_list(request):
+    products = Product.objects.all()
+
+    return render(
+        request,
+        "ogloszenia/product_list.html",
+        {"products": products},
+    )
+    
+    
+def add_product(request):
+    if request.method == "POST":
+        form = ProductForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("product_list")
+
+    else:
+        form = ProductForm()
+
+    return render(
+        request,
+        "ogloszenia/product_form.html",
+        {"form": form},
+    )
+
+
+# ogloszenia/urls.py
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path("info/", views.info, name="info"),
+    path("rules/", views.rules, name="rules"),
+    path("user/<str:username>/", views.user_profile, name="user_profile"),
+    path("products/", views.product_list, name="product_list"),
+    path("products/add/", views.add_product, name="add_product"),
+]
+
+
+# <!-- ogloszenia/templates/ogloszenia/product_form.html -->
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Dodaj produkt</title>
+</head>
+<body>
+
+<h1>Dodaj produkt</h1>
+
+<form method="post">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">Dodaj produkt</button>
+</form>
+
+</body>
+</html>
