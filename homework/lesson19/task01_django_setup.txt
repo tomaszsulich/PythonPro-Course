@@ -1,0 +1,19 @@
+# Zadanie 1 – Instalacja i projekt
+
+# Utworzenie katalogu
+mkdir lesson19
+
+# Przejście do katalogu
+cd lesson19
+
+# Utworzenie środowiska wirtualnego
+python -m venv .venv
+
+# Aktywacja środowiska (Windows)
+.venv\Scripts\activate
+
+# Instalacja Django
+pip install django
+
+# Utworzenie projektu w bieżącym katalogu
+django-admin startproject mojastrona .

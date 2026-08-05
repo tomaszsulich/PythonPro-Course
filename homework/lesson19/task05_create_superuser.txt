@@ -1,0 +1,14 @@
+# Wykonanie migracji
+python manage.py migrate
+
+# Utworzenie superużytkownika
+python manage.py createsuperuser
+
+# Uruchomienie serwera deweloperskiego
+python manage.py runserver
+
+# Panel administracyjny
+http://127.0.0.1:8000/admin/
+
+OUTPUT:
+Superuser created successfully.

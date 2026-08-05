@@ -1,0 +1,14 @@
+# Panel administracyjny
+http://127.0.0.1:8000/admin/
+
+# Wykonane operacje:
+# - dodano 3 różne ogłoszenia,
+# - sprawdzono, czy dodane dane zostały poprawnie zapisane,
+# - edytowano jedno ogłoszenie,
+# - usunięto jedno ogłoszenie.
+
+OUTPUT (Edit):
+The Ogłoszenie “Monitor Dell 24" Full HD IPS” was changed successfully.
+
+OUTPUT (Delete):
+The Ogłoszenie “Biurko komputerowe 140 cm” was deleted successfully.
