@@ -1,0 +1,9 @@
+# Instalacja biblioteki Faker
+pip install Faker
+
+OUTPUT:
+Requirement already satisfied: Faker in c:\users\tomek\onedrive\desktop\pythonpro-course_notes\homework\lesson22\.venv\lib\site-packages (40.36.0)
+Requirement already satisfied: tzdata in c:\users\tomek\onedrive\desktop\pythonpro-course_notes\homework\lesson22\.venv\lib\site-packages (from Faker) (2026.3)
+
+[notice] A new release of pip is available: 25.3 -> 26.2.1
+[notice] To update, run: python.exe -m pip install --upgrade pip

@@ -1,0 +1,171 @@
+# Instalacja django-allauth
+pip install django-allauth
+
+
+# le22/settings.py
+INSTALLED_APPS = [
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+
+    "allauth",
+    "allauth.account",
+
+    "blog",
+]
+
+MIDDLEWARE = [
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+
+    "allauth.account.middleware.AccountMiddleware",
+
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+]
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+
+ROOT_URLCONF = 'le22.urls'
+
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+            ],
+        },
+    },
+]
+
+ACCOUNT_LOGIN_METHODS = {"username", "email"}
+
+ACCOUNT_SIGNUP_FIELDS = [
+    "username*",
+    "email*",
+    "password1*",
+    "password2*",
+]
+
+ACCOUNT_EMAIL_VERIFICATION = "none"
+
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+
+
+# le22/urls.py
+from django.contrib import admin
+from django.urls import include, path
+
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("accounts/", include("allauth.urls")),
+    path("", include("blog.urls")),
+]
+
+
+# # Migracje django-allauth
+python manage.py migrate
+
+OUTPUT:
+Operations to perform:
+  Apply all migrations: account, admin, auth, blog, contenttypes, sessions
+Running migrations:
+  Applying account.0001_initial... OK
+  Applying account.0002_email_max_length... OK
+  Applying account.0003_alter_emailaddress_create_unique_verified_email... OK
+  Applying account.0004_alter_emailaddress_drop_unique_email... OK
+  Applying account.0005_emailaddress_idx_upper_email... OK
+  Applying account.0006_emailaddress_lower... OK
+  Applying account.0007_emailaddress_idx_email... OK
+  Applying account.0008_emailaddress_unique_primary_email_fixup... OK
+  Applying account.0009_emailaddress_unique_primary_email... OK
+
+
+<!-- blog/templates/blog/home.html -->
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog</title>
+</head>
+<body>
+
+<h1>Blog</h1>
+
+{% if user.is_authenticated %}
+    <p>
+        Zalogowano jako: {{ user.username }}
+    </p>
+
+    <form method="post" action="{% url 'account_logout' %}">
+        {% csrf_token %}
+        <button type="submit">Wyloguj się</button>
+    </form>
+{% else %}
+    <p>
+        <a href="{% url 'account_login' %}">
+            Zaloguj się
+        </a>
+    </p>
+
+    <p>
+        <a href="{% url 'account_signup' %}">
+            Zarejestruj się
+        </a>
+    </p>
+{% endif %}
+
+
+<form method="get">
+    <input
+        type="text"
+        name="q"
+        value="{{ query }}"
+        placeholder="Wyszukaj post..."
+    >
+    <button type="submit">Szukaj</button>
+</form>
+
+<ul>
+    {% for post in posts %}
+        <li>{{ post.title }}</li>
+    {% empty %}
+        <li>Brak postów.</li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>
+
+
+# Uruchomienie serwera
+python manage.py runserver
+
+
+# Strona rejestracji
+http://127.0.0.1:8000/accounts/signup/
+
+
+# Strona logowania
+http://127.0.0.1:8000/accounts/login/
+
+
+# Strona główna po zalogowaniu
+http://127.0.0.1:8000/

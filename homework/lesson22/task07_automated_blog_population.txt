@@ -1,0 +1,102 @@
+# Zmiana nazwy komendy
+
+blog/
+└── management/
+    ├── __init__.py
+    └── commands/
+        ├── __init__.py
+        └── seed_blog.py
+
+
+# blog/management/commands/seed_blog.py
+
+import random
+
+from django.core.management.base import BaseCommand
+from faker import Faker
+
+from blog.models import Category, Post
+
+
+class Command(BaseCommand):
+    help = "Seeds the blog database with categories and posts"
+
+    def handle(self, *args, **kwargs):
+        self.stdout.write("Removing existing blog data...")
+
+        Post.objects.all().delete()
+        Category.objects.all().delete()
+
+        fake = Faker("pl_PL")
+
+        category_names = [
+            "Technologia",
+            "Podróże",
+            "Kulinaria",
+            "Sport",
+            "Kultura",
+            "Nauka",
+            "Zdrowie",
+            "Rozrywka",
+        ]
+
+        categories = [
+            Category.objects.create(name=name)
+            for name in category_names
+        ]
+
+        self.stdout.write(
+            self.style.SUCCESS(
+                f"{len(categories)} categories created."
+            )
+        )
+
+        posts = []
+
+        for _ in range(100):
+            post = Post.objects.create(
+                title=fake.sentence(nb_words=6),
+                content="\n\n".join(
+                    fake.paragraphs(nb=5)
+                ),
+                category=random.choice(categories),
+            )
+            posts.append(post)
+
+        self.stdout.write(
+            self.style.SUCCESS(
+                f"{len(posts)} posts created."
+            )
+        )
+
+        self.stdout.write(
+            self.style.SUCCESS(
+                "Blog data seeding complete."
+            )
+        )
+
+
+# Uruchomienie komendy
+python manage.py seed_blog
+
+OUTPUT:
+Removing existing blog data...
+8 categories created.
+100 posts created.
+Blog data seeding complete.
+
+
+# Sprawdzenie liczby utworzonych obiektów
+python manage.py shell
+
+from blog.models import Category, Post
+
+Category.objects.count()
+
+OUTPUT:
+8
+
+Post.objects.count()
+
+OUTPUT:
+100

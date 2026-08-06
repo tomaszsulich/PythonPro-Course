@@ -1,0 +1,53 @@
+# blog/models.py
+from django.db import models
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class Post(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    publication_date = models.DateTimeField(auto_now_add=True)
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE,
+    )
+    tags = models.ManyToManyField(
+        Tag,
+        blank=True,
+    )
+
+    def __str__(self):
+        return self.title
+
+
+# Wygenerowanie plików migracji
+python manage.py makemigrations
+
+OUTPUT:
+Migrations for 'blog':
+  blog\migrations\0004_tag_post_tags.py
+    + Create model Tag
+    + Add field tags to post
+
+
+# Zastosowanie migracji
+python manage.py migrate
+
+OUTPUT:
+Operations to perform:
+  Apply all migrations: admin, auth, blog, contenttypes, sessions
+Running migrations:
+  Applying blog.0004_tag_post_tags... OK

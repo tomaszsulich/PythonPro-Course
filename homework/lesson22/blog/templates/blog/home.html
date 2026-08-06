@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog</title>
+</head>
+<body>
+
+<h1>Blog</h1>
+
+{% if user.is_authenticated %}
+    <p>
+        Zalogowano jako: {{ user.username }}
+    </p>
+
+    <form method="post" action="{% url 'account_logout' %}">
+        {% csrf_token %}
+        <button type="submit">Wyloguj się</button>
+    </form>
+{% else %}
+    <p>
+        <a href="{% url 'account_login' %}">
+            Zaloguj się
+        </a>
+    </p>
+
+    <p>
+        <a href="{% url 'account_signup' %}">
+            Zarejestruj się
+        </a>
+    </p>
+{% endif %}
+
+
+<form method="get">
+    <input
+        type="text"
+        name="q"
+        value="{{ query }}"
+        placeholder="Wyszukaj post..."
+    >
+    <button type="submit">Szukaj</button>
+</form>
+
+<ul>
+    {% for post in posts %}
+        <li>{{ post.title }}</li>
+    {% empty %}
+        <li>Brak postów.</li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>

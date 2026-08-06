@@ -1,0 +1,84 @@
+# blog/views.py
+from django.shortcuts import get_object_or_404, render
+from .models import Category, Post
+
+
+def home_view(request):
+    posts = Post.objects.all()
+
+    return render(
+        request,
+        "blog/home.html",
+        {"posts": posts},
+    )
+
+
+def category_view(request, category_id):
+    category = get_object_or_404(
+        Category,
+        pk=category_id,
+    )
+
+    posts = Post.objects.filter(
+        category=category,
+    )
+
+    return render(
+        request,
+        "blog/category.html",
+        {
+            "category": category,
+            "posts": posts,
+        },
+    )
+
+
+# blog/urls.py
+from django.urls import path
+
+from .views import (
+    category_view,
+    home_view,
+)
+
+
+urlpatterns = [
+    path("", home_view, name="home"),
+    path(
+        "category/<int:category_id>/",
+        category_view,
+        name="category",
+    ),
+]
+
+
+<!-- blog/templates/blog/category.html -->
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ category.name }}</title>
+</head>
+<body>
+
+<h1>{{ category.name }}</h1>
+
+<ul>
+    {% for post in posts %}
+        <li>{{ post.title }}</li>
+    {% empty %}
+        <li>Brak postów w tej kategorii.</li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>
+
+
+# Uruchomienie serwera
+python manage.py runserver
+
+
+# Wejście na stronę wybranej kategorii
+http://127.0.0.1:8000/category/1/

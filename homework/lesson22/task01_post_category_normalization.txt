@@ -1,0 +1,96 @@
+# blog/models.py
+from django.db import models
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class Post(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    publication_date = models.DateTimeField(auto_now_add=True)
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+
+    def __str__(self):
+        return self.title
+
+
+# Wygenerowanie plików migracji
+python manage.py makemigrations
+
+OUTPUT:
+Migrations for 'blog':
+  blog\migrations\0002_category_post_category.py
+    + Create model Category
+    + Add field category to post
+
+
+# Zastosowanie migracji
+python manage.py migrate
+
+OUTPUT:
+Operations to perform:
+  Apply all migrations: admin, auth, blog, contenttypes, sessions
+Running migrations:
+  Applying blog.0002_category_post_category... OK
+
+
+# Ustawienie pola category jako obowiązkowego
+
+# blog/models.py
+from django.db import models
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class Post(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    publication_date = models.DateTimeField(auto_now_add=True)
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE,
+    )
+
+    def __str__(self):
+        return self.title
+
+
+# Wygenerowanie plików migracji
+python manage.py makemigrations
+
+OUTPUT:
+(.venv) PS C:\Users\tomek\OneDrive\Desktop\PythonPro-Course_NOTES\homework\lesson22> python manage.py makemigrations
+It is impossible to change a nullable field 'category' on post to non-nullable without providing a default. This is because the database needs something to populate existing rows.
+Please select a fix:
+ 1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
+ 2) Ignore for now. Existing rows that contain NULL values will have to be handled manually, for example with a RunPython or RunSQL operation.
+ 3) Quit and manually define a default value in models.py.
+Select an option: 2
+Migrations for 'blog':
+  blog\migrations\0003_alter_post_category.py
+    ~ Alter field category on post
+
+
+# Zastosowanie migracji
+python manage.py migrate
+
+OUTPUT:
+Operations to perform:
+  Apply all migrations: admin, auth, blog, contenttypes, sessions
+Running migrations:
+  Applying blog.0003_alter_post_category... OK
