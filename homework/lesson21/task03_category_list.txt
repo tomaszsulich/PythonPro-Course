@@ -1,0 +1,75 @@
+# articles/views.py
+from django.shortcuts import redirect, render
+from .forms import ArticleForm
+from .models import Category
+
+
+def article_create(request):
+    form = ArticleForm()
+
+    if request.method == "POST":
+        form = ArticleForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("article-create")
+
+    return render(
+        request,
+        "articles/article_form.html",
+        {"form": form},
+    )
+
+
+def category_list_view(request):
+    categories = Category.objects.all()
+
+    return render(
+        request,
+        "articles/category_list.html",
+        {"categories": categories},
+    )
+
+
+# articles/urls.py
+from django.urls import path
+from .views import article_create, category_list_view
+
+
+urlpatterns = [
+    path("create/", article_create, name="article-create"),
+    path("categories/", category_list_view, name="category-list"),
+]
+
+
+# le21/urls.py
+from django.contrib import admin
+from django.urls import include, path
+
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("", include("articles.urls")),
+]
+
+
+<!-- articles/templates/articles/category_list.html -->
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Kategorie</title>
+</head>
+<body>
+
+<h1>Lista kategorii</h1>
+
+<ul>
+    {% for category in categories %}
+        <li>{{ category.name }}</li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>

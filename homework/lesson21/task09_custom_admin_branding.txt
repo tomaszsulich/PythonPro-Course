@@ -1,0 +1,43 @@
+# Utworzenie katalogu templates/admin
+
+templates/
+└── admin/
+    └── base_site.html
+
+
+<!-- templates/admin/base_site.html -->
+
+{% extends "admin/base.html" %}
+
+{% block title %}
+Panel Administratora Mojej Strony
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        Panel Administratora Mojej Strony
+    </a>
+</h1>
+{% endblock %}
+
+
+# Ustawienie globalnego katalogu szablonów
+
+# settings.py
+
+TEMPLATES = [
+    {
+        ...
+        "DIRS": [BASE_DIR / "templates"],
+        ...
+    },
+]
+
+
+# Uruchomienie serwera
+python manage.py runserver
+
+
+# Wejście na panel administratora, żeby potwierdzić efekt
+http://127.0.0.1:8000/admin/

@@ -1,0 +1,11 @@
+# Uruchomienie powłoki Django
+python manage.py shell
+
+
+# Pobranie kategorii o nazwie "Sport"
+from articles.models import Category
+
+Category.objects.get(name="Sport")
+
+OUTPUT:
+<Category: Sport>

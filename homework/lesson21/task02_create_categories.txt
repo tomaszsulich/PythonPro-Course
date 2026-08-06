@@ -1,0 +1,17 @@
+# Uruchomienie powłoki Django
+python manage.py shell
+
+
+# Tworzenie kategorii
+from articles.models import Category
+
+Category.objects.create(name="Sport")
+Category.objects.create(name="Technologia")
+Category.objects.create(name="Kultura")
+
+
+# Wyświetlenie wszystkich kategorii
+Category.objects.all()
+
+OUTPUT:
+<QuerySet [<Category: Sport>, <Category: Technologia>, <Category: Kultura>]>

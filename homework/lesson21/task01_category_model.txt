@@ -1,0 +1,56 @@
+# articles/models.py
+from django.db import models
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class Article(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+
+    def __str__(self):
+        return self.title
+    
+    
+# Wygenerowanie plików migracji
+python manage.py makemigrations
+
+OUTPUT:
+Migrations for 'articles':
+  articles\migrations\0002_category.py
+    + Create model Category
+
+
+# Zastosowanie migracji
+python manage.py migrate
+
+OUTPUT:
+Operations to perform:
+  Apply all migrations: admin, articles, auth, contenttypes, sessions
+Running migrations:
+  Applying articles.0002_category... OK
+
+
+# Sprawdzenie statusu migracji
+python manage.py showmigrations
+
+OUTPUT:
+admin
+ [X] 0001_initial
+ ...
+articles
+ [X] 0001_initial
+ [X] 0002_category
+auth
+ [X] 0001_initial
+ ...
+contenttypes
+ [X] 0001_initial
+ ...
+sessions
+ [X] 0001_initial

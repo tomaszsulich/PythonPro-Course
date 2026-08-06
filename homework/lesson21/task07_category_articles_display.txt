@@ -1,0 +1,133 @@
+# articles/models.py
+from django.db import models
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class Article(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE,
+    )
+
+    def __str__(self):
+        return self.title
+
+
+# Sprawdzenie identyfikatorów istniejących kategorii
+python manage.py shell
+
+from articles.models import Category
+
+Category.objects.values_list("id", "name")
+
+
+# Wygenerowanie migracji po dodaniu pola category
+python manage.py makemigrations
+
+# Po wyświetleniu komunikatu:
+# It is impossible to add a non-nullable field 'category'...
+#
+# należy wybrać:
+# 1) Provide a one-off default now
+#
+# a następnie wpisać ID jednej z istniejących kategorii.
+
+OUTPUT:
+It is impossible to add a non-nullable field 'category' to article without specifying a default. This is because the database needs something to populate existing rows.
+Please select a fix:
+ 1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
+ 2) Quit and manually define a default value in models.py.
+Select an option: 1
+Please enter the default value as valid Python.
+The datetime and django.utils.timezone modules are available, so it is possible to provide e.g. timezone.now as a value.
+Type 'exit' to exit this prompt
+>>> 1
+
+Migrations for 'articles':
+  articles\migrations\0003_article_category.py
+    + Add field category to article
+
+
+# Zastosowanie migracji
+python manage.py migrate
+
+OUTPUT:
+Operations to perform:
+  Apply all migrations: admin, articles, auth, contenttypes, sessions
+Running migrations:
+  Applying articles.0003_article_category... OK
+
+
+# Utworzenie przykładowych artykułów
+python manage.py shell
+
+from articles.models import Article, Category
+
+sport = Category.objects.get(name="Sport")
+technology = Category.objects.get(name="Technologia")
+culture = Category.objects.get(name="Kultura")
+
+Article.objects.create(
+    title="Najważniejsze wydarzenia sportowe",
+    content="Przegląd najważniejszych wydarzeń sportowych.",
+    category=sport,
+)
+
+Article.objects.create(
+    title="Jak zacząć regularnie biegać",
+    content="Kilka prostych wskazówek dla początkujących biegaczy.",
+    category=sport,
+)
+
+Article.objects.create(
+    title="Nowe technologie w codziennym życiu",
+    content="Artykuł o wpływie nowych technologii na codzienne życie.",
+    category=technology,
+)
+
+Article.objects.create(
+    title="Najciekawsze wydarzenia kulturalne",
+    content="Przegląd wybranych wydarzeń kulturalnych.",
+    category=culture,
+)
+
+
+# Sprawdzenie przypisanych kategorii
+Article.objects.values_list("title", "category__name")
+
+OUTPUT:
+<QuerySet [('Najważniejsze wydarzenia sportowe', 'Sport'), ('Nowe technologie w codziennym życiu', 'Technologia'),
+    ('Najciekawsze wydarzenia kulturalne', 'Kultura')
+]>
+
+
+<!-- articles/templates/articles/category_detail.html -->
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ category.name }}</title>
+</head>
+<body>
+
+<h1>{{ category.name }}</h1>
+
+<ul>
+    {% for article in category.article_set.all %}
+        <li>{{ article.title }}</li>
+    {% empty %}
+        <li>Brak artykułów w tej kategorii.</li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>

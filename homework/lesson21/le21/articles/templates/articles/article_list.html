@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Lista artykułów</h1>
+
+<form method="get">
+    <input
+        type="text"
+        name="q"
+        placeholder="Wyszukaj artykuł..."
+        value="{{ query|default:'' }}"
+    >
+
+    <button type="submit">
+        Szukaj
+    </button>
+</form>
+
+{% if articles %}
+    <ul>
+        {% for article in articles %}
+            <li>
+                {{ article.title }}
+
+                {% if article.pub_date >= three_days_ago %}
+                    <strong>NOWOŚĆ!</strong>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Brak artykułów spełniających kryteria wyszukiwania.</p>
+{% endif %}
+
+{% endblock %}

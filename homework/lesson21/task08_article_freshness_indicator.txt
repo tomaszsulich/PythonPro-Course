@@ -1,0 +1,197 @@
+# articles/models.py
+from django.db import models
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class Article(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE,
+    )
+    pub_date = models.DateTimeField(auto_now_add=True)
+    is_published = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.title
+
+
+# Wygenerowanie migracji po dodaniu pól pub_date i is_published
+python manage.py makemigrations
+
+# Podczas dodawania pola pub_date Django może poprosić
+# o jednorazową wartość dla istniejących artykułów.
+# Należy zaakceptować timezone.now, naciskając Enter.
+
+OUTPUT:
+It is impossible to add the field 'pub_date' with 'auto_now_add=True' to article without providing a default. This is because the database needs something to populate existing rows.
+ 1) Provide a one-off default now which will be set on all existing rows
+ 2) Quit and manually define a default value in models.py.
+Select an option: 1
+Please enter the default value as valid Python.
+Accept the default 'timezone.now' by pressing 'Enter' or provide another value.
+The datetime and django.utils.timezone modules are available, so it is possible to provide e.g. timezone.now as a value.
+Type 'exit' to exit this prompt
+[default: timezone.now] >>> 
+Migrations for 'articles':
+  articles\migrations\0004_article_is_published_article_pub_date.py
+    + Add field is_published to article
+    + Add field pub_date to article
+
+
+# Zastosowanie migracji
+python manage.py migrate
+
+OUTPUT:
+Operations to perform:
+  Apply all migrations: admin, articles, auth, contenttypes, sessions
+Running migrations:
+  Applying articles.0004_article_is_published_article_pub_date... OK
+
+
+# articles/views.py
+from datetime import timedelta
+from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
+
+from .forms import ArticleForm
+from .models import Article, Category
+
+
+def article_create(request):
+    form = ArticleForm()
+
+    if request.method == "POST":
+        form = ArticleForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("article-create")
+
+    return render(
+        request,
+        "articles/article_form.html",
+        {"form": form},
+    )
+
+
+def article_list_view(request):
+    articles = Article.objects.filter(
+        is_published=True,
+    ).order_by("-pub_date")
+
+    three_days_ago = timezone.now() - timedelta(days=3)
+
+    return render(
+        request,
+        "articles/article_list.html",
+        {
+            "articles": articles,
+            "three_days_ago": three_days_ago,
+        },
+    )
+
+
+def category_list_view(request):
+    categories = Category.objects.all()
+
+    return render(
+        request,
+        "articles/category_list.html",
+        {"categories": categories},
+    )
+
+
+def category_detail_view(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+
+    return render(
+        request,
+        "articles/category_detail.html",
+        {"category": category},
+    )
+
+
+# articles/urls.py
+from django.urls import path
+
+from .views import (
+    article_create,
+    article_list_view,
+    category_detail_view,
+    category_list_view,
+)
+
+
+urlpatterns = [
+    path("create/", article_create, name="article-create"),
+    path("articles/", article_list_view, name="article-list"),
+    path("categories/", category_list_view, name="category-list"),
+    path(
+        "categories/<int:pk>/",
+        category_detail_view,
+        name="category-detail",
+    ),
+]
+
+
+# articles/forms.py
+from django import forms
+from .models import Article
+
+
+class ArticleForm(forms.ModelForm):
+    class Meta:
+        model = Article
+        fields = ["title", "content", "category", "is_published"]
+
+
+<!-- articles/templates/articles/article_list.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Lista artykułów</h1>
+
+{% if articles %}
+    <ul>
+        {% for article in articles %}
+            <li>
+                {{ article.title }}
+
+                {% if article.pub_date >= three_days_ago %}
+                    <strong>NOWOŚĆ!</strong>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Brak opublikowanych artykułów.</p>
+{% endif %}
+
+{% endblock %}
+
+
+# Aby sprawdzić filtrowanie, należy ukryć przynajmniej jeden artykuł
+python manage.py shell
+
+from articles.models import Article
+
+article = Article.objects.first()
+article.is_published = False
+article.save(update_fields=["is_published"])
+
+
+# Rzeczywista weryfikacja ukrycia artykułu
+Article.objects.values_list("title", "is_published")
+
+OUTPUT:
+<QuerySet [('Najważniejsze wydarzenia sportowe', False), ('Jak zacząć regularnie biegać', True), ('Nowe technologie w codziennym życiu', True), ('Najciekawsze wydarzenia kulturalne', True)]>

@@ -1,0 +1,30 @@
+# articles/static/articles/style.css
+body {
+    background-color: #f0f8ff;
+}
+
+
+<!-- articles/templates/articles/category_list.html -->
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Kategorie</title>
+
+    <link rel="stylesheet" href="{% static 'articles/style.css' %}">
+</head>
+<body>
+
+<h1>Lista kategorii</h1>
+
+<ul>
+    {% for category in categories %}
+        <li>{{ category.name }}</li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>
