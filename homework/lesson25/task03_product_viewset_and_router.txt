@@ -1,0 +1,40 @@
+# drf_lab/views.py
+from rest_framework import viewsets
+from .models import Product
+from .serializers import ProductSerializer
+
+
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+# config/urls.py
+from django.contrib import admin
+from django.urls import include, path
+from rest_framework import routers
+from drf_lab.views import ProductViewSet
+
+
+router = routers.DefaultRouter()
+router.register(
+    r"products",
+    ProductViewSet,
+)
+
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path(
+        "api/",
+        include(router.urls),
+    ),
+]
+
+
+# Uruchomienie serwera
+python manage.py runserver
+
+
+# Endpoint produktów
+http://127.0.0.1:8000/api/products/

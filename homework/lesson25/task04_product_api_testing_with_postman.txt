@@ -1,0 +1,31 @@
+# Uruchomienie serwera
+python manage.py runserver
+
+
+# Endpoint produktów
+http://127.0.0.1:8000/api/products/
+
+
+# POST - produkt 1
+
+{
+    "name": "Laptop",
+    "price": "3499.99"
+}
+
+
+# POST - produkt 2
+
+
+{
+    "name": "Smartphone",
+    "price": "1999.99"
+}
+
+
+# POST - produkt 3
+
+{
+    "name": "Headphones",
+    "price": "299.99"
+}

@@ -1,0 +1,190 @@
+# drf_lab/views.py
+from rest_framework import status, viewsets
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+from .models import Note, Product
+from .serializers import NoteSerializer, ProductSerializer
+
+
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+class NoteViewSet(viewsets.ModelViewSet):
+    queryset = Note.objects.all().order_by("-created_at")
+    serializer_class = NoteSerializer
+
+
+@api_view(["GET"])
+def set_name(request):
+    name = request.query_params.get("name", "")
+
+    response = Response(
+        {"message": f"Ustawiono imię: {name}"}
+    )
+
+    response.set_cookie(
+        "user_name",
+        name,
+    )
+
+    return response
+
+
+@api_view(["GET"])
+def hello(request):
+    name = request.COOKIES.get(
+        "user_name",
+        "Gość",
+    )
+
+    return Response(
+        {"message": f"Witaj, {name}!"}
+    )
+
+
+@api_view(["GET"])
+def calculate(request):
+    try:
+        num1 = float(request.query_params.get("num1"))
+        num2 = float(request.query_params.get("num2"))
+    except (TypeError, ValueError):
+        return Response(
+            {
+                "error": (
+                    "Parametry num1 i num2 muszą być "
+                    "poprawnymi liczbami."
+                )
+            },
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    operation = request.query_params.get("operation")
+
+    if operation == "add":
+        result = num1 + num2
+
+    elif operation == "subtract":
+        result = num1 - num2
+
+    elif operation == "multiply":
+        result = num1 * num2
+
+    elif operation == "divide":
+        if num2 == 0:
+            return Response(
+                {
+                    "error": (
+                        "Dzielenie przez zero jest niedozwolone."
+                    )
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        result = num1 / num2
+
+    else:
+        return Response(
+            {"error": "Niepoprawna operacja."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    return Response(
+        {"result": result}
+    )
+
+
+# config/urls.py
+from django.contrib import admin
+from django.urls import include, path
+from rest_framework import routers
+
+from drf_lab.views import (
+    NoteViewSet,
+    ProductViewSet,
+    calculate,
+    hello,
+    set_name,
+)
+
+
+router = routers.DefaultRouter()
+
+router.register(
+    r"products",
+    ProductViewSet,
+)
+
+router.register(
+    r"notes",
+    NoteViewSet,
+)
+
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    
+    path(
+        "api/",
+        include(router.urls),
+    ),
+    
+    path(
+        "api/hello/",
+        hello,
+        name="hello",
+    ),
+    
+    path(
+        "api/set-name/",
+        set_name,
+        name="set_name",
+    ),
+    
+    path(
+        "api/calculate/",
+        calculate,
+        name="calculate",
+    ),
+]
+
+
+# Uruchomienie serwera
+python manage.py runserver
+
+
+# Dodawanie
+
+http://127.0.0.1:8000/api/calculate/?num1=10&num2=5&operation=add
+
+
+# Odejmowanie
+
+http://127.0.0.1:8000/api/calculate/?num1=10&num2=5&operation=subtract
+
+
+# Mnożenie
+
+http://127.0.0.1:8000/api/calculate/?num1=10&num2=5&operation=multiply
+
+
+# Dzielenie
+
+http://127.0.0.1:8000/api/calculate/?num1=10&num2=5&operation=divide
+
+
+# Dzielenie przez zero
+
+http://127.0.0.1:8000/api/calculate/?num1=10&num2=0&operation=divide
+
+
+# Niepoprawna operacja
+
+http://127.0.0.1:8000/api/calculate/?num1=10&num2=5&operation=power
+
+
+# Niepoprawna wartość parametru
+
+http://127.0.0.1:8000/api/calculate/?num1=test&num2=5&operation=add

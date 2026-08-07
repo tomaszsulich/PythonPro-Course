@@ -1,0 +1,203 @@
+# drf_lab/models.py
+from django.db import models
+
+
+class Product(models.Model):
+    name = models.CharField(max_length=200)
+    
+    price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+    )
+
+    def __str__(self):
+        return self.name
+
+
+class Note(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+
+# drf_lab/serializers.py
+from rest_framework import serializers
+
+from .models import Note, Product
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = [
+            "id",
+            "name",
+            "price",
+        ]
+
+
+class NoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Note
+        fields = [
+            "id",
+            "title",
+            "content",
+            "created_at",
+        ]
+
+
+# drf_lab/views.py
+from rest_framework import viewsets
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+from .models import Note, Product
+from .serializers import NoteSerializer, ProductSerializer
+
+
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+class NoteViewSet(viewsets.ModelViewSet):
+    queryset = Note.objects.all().order_by("-created_at")
+    serializer_class = NoteSerializer
+
+
+@api_view(["GET"])
+def set_name(request):
+    name = request.query_params.get("name", "")
+
+    response = Response(
+        {"message": f"Ustawiono imię: {name}"}
+    )
+
+    response.set_cookie(
+        "user_name",
+        name,
+    )
+
+    return response
+
+
+@api_view(["GET"])
+def hello(request):
+    name = request.COOKIES.get(
+        "user_name",
+        "Gość",
+    )
+
+    return Response(
+        {"message": f"Witaj, {name}!"}
+    )
+
+
+# config/urls.py
+from django.contrib import admin
+from django.urls import include, path
+from rest_framework import routers
+
+from drf_lab.views import (
+    NoteViewSet,
+    ProductViewSet,
+    hello,
+    set_name,
+)
+
+
+router = routers.DefaultRouter()
+
+router.register(
+    r"products",
+    ProductViewSet,
+)
+
+router.register(
+    r"notes",
+    NoteViewSet,
+)
+
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    
+    path(
+        "api/",
+        include(router.urls),
+    ),
+    
+    path(
+        "api/hello/",
+        hello,
+        name="hello",
+    ),
+    
+    path(
+        "api/set-name/",
+        set_name,
+        name="set_name",
+    ),
+]
+
+
+# Utworzenie i zastosowanie migracji
+python manage.py makemigrations
+
+OUTPUT:
+Migrations for 'drf_lab':
+  drf_lab\migrations\0002_note.py
+    + Create model Note
+
+python manage.py migrate
+
+OUTPUT:
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, drf_lab, sessions
+Running migrations:
+  Applying drf_lab.0002_note... OK
+
+
+# Uruchomienie serwera
+python manage.py runserver
+
+
+# Endpoint notatek
+http://127.0.0.1:8000/api/notes/
+
+
+# POST - utworzenie notatki
+
+{
+    "title": "Pierwsza notatka",
+    "content": "Test tworzenia notatki przez API."
+}
+
+
+# GET - lista notatek
+
+http://127.0.0.1:8000/api/notes/
+
+
+# GET - detal notatki
+
+http://127.0.0.1:8000/api/notes/1/
+
+
+# PUT - aktualizacja notatki
+
+http://127.0.0.1:8000/api/notes/1/
+
+{
+    "title": "Zaktualizowana notatka",
+    "content": "Treść została zmieniona przez API."
+}
+
+
+# DELETE - usunięcie notatki
+
+http://127.0.0.1:8000/api/notes/1/
