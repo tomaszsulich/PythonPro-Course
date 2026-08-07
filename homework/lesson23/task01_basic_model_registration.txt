@@ -1,0 +1,30 @@
+# cars/admin.py
+from django.contrib import admin
+
+from .models import Car
+
+
+admin.site.register(Car)
+
+
+# Utworzenie superużytkownika
+python manage.py createsuperuser
+
+OUTPUT:
+Username (leave blank to use 'tomek'): 
+Email address: 
+Password: 
+Password (again): 
+Superuser created successfully.
+
+
+# Uruchomienie serwera
+python manage.py runserver
+
+
+# Panel administracyjny
+http://127.0.0.1:8000/admin/
+
+
+# Po zalogowaniu model Car będzie dostępny
+# w panelu administracyjnym w sekcji CARS.

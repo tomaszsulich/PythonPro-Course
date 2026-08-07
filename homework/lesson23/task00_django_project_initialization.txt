@@ -1,0 +1,98 @@
+# Utworzenie katalogu dla lekcji
+mkdir lesson23
+cd lesson23
+
+
+# Utworzenie i aktywacja środowiska wirtualnego
+python -m venv .venv
+.venv\Scripts\activate
+
+
+# Instalacja wymaganych bibliotek
+pip install django pillow
+
+
+# Utworzenie projektu Django
+django-admin startproject config .
+
+
+# Utworzenie aplikacji cars
+python manage.py startapp cars
+
+
+# Rejestracja aplikacji
+
+# config/settings.py
+
+INSTALLED_APPS = [
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "cars",
+]
+
+
+# Konfiguracja obsługi plików multimedialnych
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
+
+# Konfiguracja adresów URL
+
+# config/urls.py
+
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import path
+
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+]
+
+
+if settings.DEBUG:
+    urlpatterns += static(
+        settings.MEDIA_URL,
+        document_root=settings.MEDIA_ROOT,
+    )
+
+
+# Wykrycie zmian w modelach
+python manage.py makemigrations
+
+OUTPUT:
+Migrations for 'cars':
+  cars\migrations\0001_initial.py
+    + Create model Car
+
+
+# Wykonanie migracji początkowych
+python manage.py migrate
+
+
+OUTPUT:
+Operations to perform:
+  Apply all migrations: admin, auth, cars, contenttypes, sessions
+Running migrations:
+  Applying cars.0001_initial... OK
+
+
+# Uruchomienie serwera
+python manage.py runserver
+
+
+# Panel administracyjny
+http://127.0.0.1:8000/admin
+
+
+# Strona główna projektu
+http://127.0.0.1:8000/
+
+OUTPUT:
+Page not found (404)

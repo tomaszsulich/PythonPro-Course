@@ -1,0 +1,51 @@
+# cars/admin.py
+from django.contrib import admin
+from .models import Car
+
+
+@admin.register(Car)
+class CarAdmin(admin.ModelAdmin):
+    list_display = (
+        "brand",
+        "model",
+        "full_name",
+        "year",
+        "is_available",
+    )
+
+    search_fields = (
+        "brand",
+        "model",
+    )
+
+    list_filter = (
+        "is_available",
+        "year",
+    )
+
+    ordering = (
+        "-year",
+    )
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj is not None:
+            return ("year",)
+
+        return ()
+
+    def full_name(self, obj):
+        return f"{obj.brand} {obj.model}"
+
+    full_name.short_description = "Pełna nazwa"
+
+
+# Uruchomienie serwera
+python manage.py runserver
+
+
+# Panel administracyjny
+http://127.0.0.1:8000/admin/
+
+
+# Przy dodawaniu nowego samochodu pole year pozostaje edytowalne.
+# Przy edycji istniejącego samochodu pole year jest tylko do odczytu.
