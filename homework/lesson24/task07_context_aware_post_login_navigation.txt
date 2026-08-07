@@ -1,0 +1,51 @@
+# config/urls.py
+from django.contrib import admin
+from django.contrib.auth import views as auth_views
+from django.urls import include, path
+
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    
+    path(
+        "login/",
+        auth_views.LoginView.as_view(
+            template_name="users/login.html",
+        ),
+        name="login",
+    ),
+    
+    path(
+        "logout/",
+        auth_views.LogoutView.as_view(),
+        name="logout",
+    ),
+    
+    path("", include("users.urls")),
+]
+
+
+# Uruchomienie serwera
+python manage.py runserver
+
+
+# Test mechanizmu przekierowania
+
+# Jako niezalogowany użytkownik otwórz chronioną stronę:
+http://127.0.0.1:8000/profile/
+
+
+# Django przekieruje na:
+http://127.0.0.1:8000/login/?next=/profile/
+
+
+# Parametr next przechowuje adres strony,
+# którą użytkownik próbował otworzyć przed zalogowaniem.
+
+# LoginView domyślnie wykorzystuje parametr next.
+
+# Po poprawnym zalogowaniu użytkownik zostanie
+# przekierowany do /profile/.
+
+# Jeśli parametr next nie występuje,
+# po zalogowaniu zostanie użyty LOGIN_REDIRECT_URL.

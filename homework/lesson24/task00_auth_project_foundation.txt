@@ -1,0 +1,205 @@
+# Utworzenie katalogu dla lekcji
+mkdir lesson24
+cd lesson24
+
+
+# Utworzenie i aktywacja środowiska wirtualnego
+python -m venv .venv
+
+.venv\Scripts\activate
+
+
+# Instalacja Django
+pip install django
+
+
+# Utworzenie projektu Django
+django-admin startproject config .
+
+
+# Utworzenie aplikacji users
+python manage.py startapp users
+
+
+# Rejestracja aplikacji
+
+# config/settings.py
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'users',
+]
+
+
+# Konfiguracja globalnego katalogu templates
+
+# config/settings.py
+
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [
+            BASE_DIR / "templates",
+        ],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+            ],
+        },
+    },
+]
+
+
+# Utworzenie podstawowego widoku strony głównej
+
+# users/views.py
+
+from django.shortcuts import render
+
+
+def home(request):
+    return render(
+        request,
+        "home.html",
+    )
+
+
+# Utworzenie adresów URL aplikacji
+
+# users/urls.py
+
+from django.urls import path
+
+from .views import home
+
+
+urlpatterns = [
+    path("", home, name="home"),
+]
+
+
+# Podłączenie aplikacji do projektu
+
+# config/urls.py
+
+from django.contrib import admin
+from django.urls import include, path
+
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("", include("users.urls")),
+]
+
+
+# Utworzenie szablonu bazowego
+
+# templates/base.html
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+        Lesson 24
+        {% endblock %}
+    </title>
+</head>
+<body>
+
+<nav>
+    <a href="{% url 'home' %}">Strona główna</a>
+</nav>
+
+<hr>
+
+{% block content %}
+{% endblock %}
+
+</body>
+</html>
+
+
+# Utworzenie strony głównej
+
+# templates/home.html
+
+{% extends "base.html" %}
+
+{% block title %}
+Strona główna
+{% endblock %}
+
+{% block content %}
+
+<h1>Strona główna</h1>
+
+<p>Projekt przygotowany do obsługi uwierzytelniania użytkowników.</p>
+
+{% endblock %}
+
+
+# Wygenerowanie ewentualnych migracji
+python manage.py makemigrations
+
+OUTPUT:
+No changes detected
+
+
+# Zastosowanie migracji początkowych
+python manage.py migrate
+
+OUTPUT:
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, sessions
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying sessions.0001_initial... OK
+
+
+# Stworzenie superużytkownika
+python manage.py createsuperuser
+
+OUTPUT:
+Username (leave blank to use 'tomek'): 
+Email address: 
+Password: 
+Password (again): 
+Superuser created successfully.
+
+
+# Uruchomienie serwera
+python manage.py runserver
+
+
+# Strona główna projektu
+http://127.0.0.1:8000/
+
+
+# Panel administracyjny
+http://127.0.0.1:8000/admin/

@@ -1,0 +1,114 @@
+# users/views.py
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import redirect, render
+
+
+def home(request):
+    return render(
+        request,
+        "home.html",
+    )
+
+
+@login_required
+def profile(request):
+    return render(
+        request,
+        "users/profile.html",
+    )
+
+
+def register(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+
+        if form.is_valid():
+            user = form.save()
+
+            messages.success(
+                request,
+                f"Konto dla {user.username} zostało utworzone! "
+                "Możesz się teraz zalogować.",
+            )
+
+            return redirect("login")
+    else:
+        form = UserCreationForm()
+
+    return render(
+        request,
+        "users/register.html",
+        {"form": form},
+    )
+
+
+<!-- templates/base.html -->
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+        Lesson 24
+        {% endblock %}
+    </title>
+</head>
+<body>
+
+<nav>
+    <a href="{% url 'home' %}">Strona główna</a>
+
+    {% if user.is_authenticated %}
+        <a href="{% url 'profile' %}">Profil</a>
+
+        <form
+            method="post"
+            action="{% url 'logout' %}"
+            style="display: inline;"
+        >
+            {% csrf_token %}
+            <button type="submit">Wyloguj</button>
+        </form>
+    {% else %}
+        <a href="{% url 'login' %}">Zaloguj</a>
+        <a href="{% url 'register' %}">Zarejestruj</a>
+    {% endif %}
+</nav>
+
+<hr>
+
+{% if messages %}
+    {% for message in messages %}
+        <div>
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+{% block content %}
+{% endblock %}
+
+</body>
+</html>
+
+
+# Uruchomienie serwera
+python manage.py runserver
+
+
+# Rejestracja użytkownika
+http://127.0.0.1:8000/register/
+
+
+# Utwórz nowe konto za pomocą formularza rejestracji.
+
+# Po poprawnej rejestracji użytkownik zostanie
+# przekierowany na stronę logowania.
+
+# Szablon bazowy wyświetli komunikat:
+# "Konto dla <username> zostało utworzone!
+# Możesz się teraz zalogować."

@@ -1,0 +1,88 @@
+# users/views.py
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import redirect, render
+
+
+def home(request):
+    return render(
+        request,
+        "home.html",
+    )
+
+
+@login_required
+def profile(request):
+    return render(
+        request,
+        "users/profile.html",
+    )
+
+
+def register(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("login")
+    else:
+        form = UserCreationForm()
+
+    return render(
+        request,
+        "users/register.html",
+        {"form": form},
+    )
+
+
+# users/urls.py
+from django.urls import path
+
+from .views import home, profile, register
+
+
+urlpatterns = [
+    path("", home, name="home"),
+    path("profile/", profile, name="profile"),
+    path("register/", register, name="register"),
+]
+
+
+# config/settings.py
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'login'
+LOGIN_URL = 'login'
+
+
+<!-- templates/users/profile.html -->
+
+{% extends "base.html" %}
+
+{% block title %}
+Profil
+{% endblock %}
+
+{% block content %}
+
+<h1>Witaj, {{ user.username }}!</h1>
+
+{% endblock %}
+
+
+# Uruchomienie serwera
+python manage.py runserver
+
+
+# Profil użytkownika
+http://127.0.0.1:8000/profile/
+
+
+# Widok profilu jest dostępny wyłącznie dla
+# zalogowanych użytkowników.
+
+# Niezalogowany użytkownik zostanie przekierowany
+# na stronę logowania.
+
+# Po zalogowaniu profil wyświetli powitanie
+# zawierające nazwę aktualnego użytkownika.

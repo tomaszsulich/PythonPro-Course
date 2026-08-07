@@ -1,0 +1,86 @@
+# users/forms.py
+
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
+
+class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField(
+        required=True,
+    )
+
+    class Meta:
+        model = User
+        fields = (
+            "username",
+            "email",
+            "password1",
+            "password2",
+        )
+
+
+# users/views.py
+
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, render
+
+from .forms import CustomUserCreationForm
+
+
+@login_required
+def home(request):
+    return render(
+        request,
+        "home.html",
+    )
+
+
+@login_required
+def profile(request):
+    return render(
+        request,
+        "users/profile.html",
+    )
+
+
+def register(request):
+    if request.method == "POST":
+        form = CustomUserCreationForm(request.POST)
+
+        if form.is_valid():
+            user = form.save()
+
+            messages.success(
+                request,
+                f"Konto dla {user.username} zostało utworzone! "
+                "Możesz się teraz zalogować.",
+            )
+
+            return redirect("login")
+    else:
+        form = CustomUserCreationForm()
+
+    return render(
+        request,
+        "users/register.html",
+        {"form": form},
+    )
+
+
+# Uruchomienie serwera
+python manage.py runserver
+
+
+# Rejestracja użytkownika
+http://127.0.0.1:8000/register/
+
+
+# Formularz rejestracji zawiera wymagane pole email.
+
+# Próba wysłania formularza bez adresu email
+# zakończy się błędem walidacji.
+
+# Po poprawnej rejestracji adres email zostanie
+# zapisany razem z danymi użytkownika.

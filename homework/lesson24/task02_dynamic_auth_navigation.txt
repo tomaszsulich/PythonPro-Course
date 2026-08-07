@@ -1,0 +1,199 @@
+# users/views.py
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import redirect, render
+
+
+def home(request):
+    return render(
+        request,
+        "home.html",
+    )
+
+
+# Tymczasowy, minimalny widok profilu.
+# Zostanie rozbudowany w zadaniu 3.
+def profile(request):
+    return render(
+        request,
+        "users/profile.html",
+    )
+
+def register(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("login")
+    else:
+        form = UserCreationForm()
+
+    return render(
+        request,
+        "users/register.html",
+        {"form": form},
+    )
+
+
+# users/urls.py
+from django.urls import path
+
+from .views import home, profile, register
+
+
+urlpatterns = [
+    path("", home, name="home"),
+    path("profile/", profile, name="profile"),
+    path("register/", register, name="register"),
+]
+
+
+# config/urls.py
+from django.contrib import admin
+from django.contrib.auth import views as auth_views
+from django.urls import include, path
+
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+
+    path(
+        "login/",
+        auth_views.LoginView.as_view(
+            template_name="users/login.html",
+        ),
+        name="login",
+    ),
+
+    path(
+        "logout/",
+        auth_views.LogoutView.as_view(),
+        name="logout",
+    ),
+    
+    path("", include("users.urls")),
+]
+
+
+<!-- templates/base.html -->
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+        Lesson 24
+        {% endblock %}
+    </title>
+</head>
+<body>
+
+<nav>
+    <a href="{% url 'home' %}">Strona główna</a>
+
+    {% if user.is_authenticated %}
+        <a href="{% url 'profile' %}">Profil</a>
+
+        <form
+            method="post"
+            action="{% url 'logout' %}"
+            style="display: inline;"
+        >
+            {% csrf_token %}
+            <button type="submit">Wyloguj</button>
+        </form>
+    {% else %}
+        <a href="{% url 'login' %}">Zaloguj</a>
+        <a href="{% url 'register' %}">Zarejestruj</a>
+    {% endif %}
+</nav>
+
+<hr>
+
+{% block content %}
+{% endblock %}
+
+</body>
+</html>
+
+
+<!-- templates/users/login.html -->
+
+{% extends "base.html" %}
+
+{% block title %}
+Logowanie
+{% endblock %}
+
+{% block content %}
+
+<h1>Zaloguj się</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Zaloguj</button>
+</form>
+
+{% endblock %}
+
+
+<!-- templates/users/register.html -->
+
+{% extends "base.html" %}
+
+{% block title %}
+Rejestracja
+{% endblock %}
+
+{% block content %}
+
+<h1>Zarejestruj się</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Zarejestruj</button>
+</form>
+
+{% endblock %}
+
+
+<!-- templates/users/profile.html -->
+
+{% extends "base.html" %}
+
+{% block title %}
+Profil
+{% endblock %}
+
+{% block content %}
+
+<h1>Profil</h1>
+
+<p>Profil użytkownika.</p>
+
+{% endblock %}
+
+
+# Uruchomienie serwera
+python manage.py runserver
+
+
+# Strona główna
+http://127.0.0.1:8000/
+
+
+# Rejestracja
+http://127.0.0.1:8000/register/
+
+
+# Logowanie
+http://127.0.0.1:8000/login/
+
+
+# Tymczasowy profil
+http://127.0.0.1:8000/profile/

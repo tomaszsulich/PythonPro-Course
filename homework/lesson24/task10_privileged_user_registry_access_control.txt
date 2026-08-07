@@ -1,0 +1,195 @@
+# users/views.py
+from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.shortcuts import redirect, render
+
+from .forms import CustomUserCreationForm
+
+
+@login_required
+def home(request):
+    return render(
+        request,
+        "home.html",
+    )
+
+
+@login_required
+def profile(request):
+    return render(
+        request,
+        "users/profile.html",
+    )
+
+
+def register(request):
+    if request.method == "POST":
+        form = CustomUserCreationForm(request.POST)
+
+        if form.is_valid():
+            user = form.save()
+
+            login(
+                request,
+                user,
+            )
+
+            messages.success(
+                request,
+                f"Konto dla {user.username} zostało utworzone! "
+                "Zostałeś automatycznie zalogowany.",
+            )
+
+            return redirect("home")
+    else:
+        form = CustomUserCreationForm()
+
+    return render(
+        request,
+        "users/register.html",
+        {"form": form},
+    )
+
+
+@staff_member_required
+def user_list(request):
+    users = User.objects.all()
+
+    return render(
+        request,
+        "users/user_list.html",
+        {"users": users},
+    )
+
+
+# users/urls.py
+from django.urls import path
+
+from .views import home, profile, register, user_list
+
+
+urlpatterns = [
+    path("", home, name="home"),
+    path("profile/", profile, name="profile"),
+    path("register/", register, name="register"),
+    path(
+        "users/",
+        user_list,
+        name="user_list",
+    ),
+]
+
+
+<!-- templates/base.html -->
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+        Lesson 24
+        {% endblock %}
+    </title>
+</head>
+<body>
+
+<nav>
+    <a href="{% url 'home' %}">Strona główna</a>
+
+    {% if user.is_authenticated %}
+        <a href="{% url 'profile' %}">Profil</a>
+
+        {% if user.is_staff %}
+            <a href="{% url 'user_list' %}">
+                Lista użytkowników
+            </a>
+        {% endif %}
+
+        <form
+            method="post"
+            action="{% url 'logout' %}"
+            style="display: inline;"
+        >
+            {% csrf_token %}
+            <button type="submit">Wyloguj</button>
+        </form>
+    {% else %}
+        <a href="{% url 'login' %}">Zaloguj</a>
+        <a href="{% url 'register' %}">Zarejestruj</a>
+    {% endif %}
+</nav>
+
+<hr>
+
+{% if messages %}
+    {% for message in messages %}
+        <div>
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+{% block content %}
+{% endblock %}
+
+</body>
+</html>
+
+
+<!-- templates/users/user_list.html -->
+
+{% extends "base.html" %}
+
+{% block title %}
+Lista użytkowników
+{% endblock %}
+
+{% block content %}
+
+<h1>Lista użytkowników</h1>
+
+<ul>
+    {% for user in users %}
+        <li>
+            {{ user.username }}
+
+            {% if user.email %}
+                – {{ user.email }}
+            {% endif %}
+        </li>
+    {% empty %}
+        <li>Brak zarejestrowanych użytkowników.</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
+
+
+# Uruchomienie serwera
+python manage.py runserver
+
+
+# Lista zarejestrowanych użytkowników
+http://127.0.0.1:8000/users/
+
+
+# Widok pobiera wszystkich zarejestrowanych
+# użytkowników za pomocą User.objects.all().
+
+# Dostęp do widoku jest ograniczony dekoratorem
+# @staff_member_required.
+
+# Link "Lista użytkowników" jest widoczny
+# w nawigacji wyłącznie dla użytkowników,
+# którzy mają is_staff=True.
+
+# Użytkownik z is_staff=True może otworzyć
+# widok i zobaczyć listę wszystkich użytkowników.
+
+# Użytkownik bez statusu staff nie uzyska
+# dostępu do widoku /users/, nawet jeśli wpisze
+# jego adres bezpośrednio.

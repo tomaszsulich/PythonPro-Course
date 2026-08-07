@@ -1,0 +1,57 @@
+# users/views.py
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import redirect, render
+
+
+@login_required
+def home(request):
+    return render(
+        request,
+        "home.html",
+    )
+
+
+@login_required
+def profile(request):
+    return render(
+        request,
+        "users/profile.html",
+    )
+
+
+def register(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+
+        if form.is_valid():
+            user = form.save()
+
+            messages.success(
+                request,
+                f"Konto dla {user.username} zostało utworzone! "
+                "Możesz się teraz zalogować.",
+            )
+
+            return redirect("login")
+    else:
+        form = UserCreationForm()
+
+    return render(
+        request,
+        "users/register.html",
+        {"form": form},
+    )
+
+
+# Uruchomienie serwera
+python manage.py runserver
+
+
+# Jako niezalogowany użytkownik otwórz stronę główną:
+# http://127.0.0.1:8000/
+
+# Użytkownik zostanie automatycznie przekierowany
+# do formularza logowania pod adresem:
+# http://127.0.0.1:8000/login/?next=/
