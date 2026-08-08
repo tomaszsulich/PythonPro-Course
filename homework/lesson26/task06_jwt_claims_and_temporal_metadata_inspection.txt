@@ -1,0 +1,35 @@
+# Uruchomienie serwera
+python manage.py runserver
+
+
+# Logowanie użytkownika przez POSTMAN
+
+Method: POST
+URL: http://127.0.0.1:8000/auth/jwt/create/
+
+# Body (raw/JSON)
+
+{
+    "username": "testuser",
+    "password": "bardzoTrudneHaslo123"
+}
+
+# Odpowiedź zawiera zarówno refresh token, jak i access token.
+
+
+# Access token należy skopiować i wkleić na stronie:
+https://jwt.io/
+
+
+# W sekcji Payload należy sprawdzić między innymi pola:
+
+user_id: 2
+iat: 1786194008
+exp: 1786194307
+
+
+# user_id identyfikuje użytkownika, dla którego token został wystawiony,
+# exp natomiast określa czas wygaśnięcia tokena jako Unix timestamp.
+
+# Różnica między exp i iat wynosi 299 sekund,
+# czyli w przybliżeniu 5 minut.

@@ -1,0 +1,56 @@
+# config/views.py
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+
+class ProtectedView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return Response({
+            "username": request.user.username,
+        })
+
+
+# config/urls.py
+from django.contrib import admin
+from django.urls import include, path
+
+from config.views import ProtectedView
+
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("auth/", include("djoser.urls")),
+    path("auth/", include("djoser.urls.jwt")),
+    path("api/protected/", ProtectedView.as_view()),
+]
+
+
+# Uruchomienie serwera
+python manage.py runserver
+
+
+# Próba dostębu bez tokena przez Postman
+
+Method: GET
+URL: http://127.0.0.1:8000/api/protected/
+
+# Odpowiedź:
+401 Unauthorized
+
+
+# Dostęp z poprawnym access tokenem
+
+Method: GET
+URL: http://127.0.0.1:8000/api/protected/
+
+Authorization:
+Bearer <access_token>
+
+# Odpowiedź:
+
+{
+    "username": "testuser"
+}

@@ -1,0 +1,7 @@
+# Zadanie 1 - Analiza Middleware
+
+SessionMiddleware odpowiada za obsługę i utrzymywanie sesji 
+użytkownika pomiędzy kolejnymi żądaniami HTTP.
+
+AuthenticationMiddleware korzysta z informacji o sesji,
+aby przypisać uwierzytelnionego użytkownika do request.user.

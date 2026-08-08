@@ -1,0 +1,16 @@
+# Utworzenie i aktywacja środowiska wirtualnego
+python -m venv .venv
+
+.venv\Scripts\activate
+
+
+# Instalacja Django, Django REST Framework, Django REST Framework Simple JWT i Djoser
+pip install django djangorestframework djangorestframework-simplejwt djoser
+
+
+# Zapisanie zainstalowanych zależności do pliku requirements.txt
+pip freeze > requirements.txt
+
+
+# Utworzenie projektu
+django-admin startproject config .
