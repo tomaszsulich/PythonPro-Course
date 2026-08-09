@@ -1,0 +1,56 @@
+# Instalacja biblioteki django-redis
+pip install django-redis
+
+
+# Aktualizacja pliku requirements.txt
+pip freeze > requirements.txt
+
+
+# Uruchomienie Redis w kontenerze Docker
+docker run -d --name redis-cache -p 6379:6379 redis
+
+
+# Sprawdzenie działania kontenera
+docker ps
+
+OUTPUT:
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS                                         NAMES
+dbc5b6a24256   redis     "docker-entrypoint.s…"   17 seconds ago   Up 16 seconds   0.0.0.0:6379->6379/tcp, [::]:6379->6379/tcp   redis-cache
+
+
+# config/settings.py
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}
+
+
+# Uruchomienie serwera django
+python manage.py runserver
+
+
+# Wywołanie endpointu wykorzystującego cache
+
+Method: GET
+URL: http://127.0.0.1:8000/api/viewset-products/1/
+
+
+# Ponowne wywołanie endpointu
+
+Method: GET
+URL: http://127.0.0.1:8000/api/viewset-products/1/
+
+
+# Django Debug Toolbar został użyty do sprawdzenia operacji cache.
+
+# Przy pierwszym żądaniu dane nie znajdowały się w cache,
+# dlatego zostały pobrane i zapisane w Redis.
+
+# Przy kolejnym żądaniu dane zostały pobrane z cache.
+
+# Backend cache został zmieniony z FileBasedCache na Redis.

@@ -1,0 +1,171 @@
+# cache_lab/models.py
+from django.db import models
+
+
+class Product(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+# Utworzenie i zastosowanie migracji
+python manage.py makemigrations
+
+OUTPUT:
+Migrations for 'cache_lab':
+  cache_lab\migrations\0001_initial.py
+    + Create model Product
+
+python manage.py migrate
+
+OUTPUT:
+Operations to perform:
+  Apply all migrations: admin, auth, cache_lab, contenttypes, sessions
+Running migrations:
+  Applying cache_lab.0001_initial... OK
+
+
+# cache_lab/serializers.py
+from rest_framework import serializers
+from .models import Product
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ["id", "name"]
+
+
+# cache_lab/views.py
+import time
+
+from django.contrib.auth.models import User
+from django.core.cache import cache
+from django.shortcuts import render
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from rest_framework import viewsets
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+from .models import Product
+from .serializers import ProductSerializer
+
+
+def cache_test(request):
+    return render(
+        request,
+        "cache_lab/cache_test.html",
+    )
+
+
+@cache_page(60)
+@api_view(["GET"])
+def product_list(request):
+    return Response(
+        {
+            "products": [
+                {"id": 1, "name": "Kanapka z jajkiem"},
+                {"id": 2, "name": "Tost z szynką i serem"},
+            ]
+        }
+    )
+
+
+@api_view(["GET"])
+def selective_cache_view(request):
+    user_count = User.objects.count()
+
+    cache_key = "complex_calculation_result"
+    complex_result = cache.get(cache_key)
+
+    if complex_result is None:
+        time.sleep(3)
+        complex_result = 42
+        cache.set(cache_key, complex_result, timeout=60)
+        source = "calculated"
+    else:
+        source = "cache"
+
+    return Response(
+        {
+            "user_count": user_count,
+            "complex_result": complex_result,
+            "source": source,
+        }
+    )
+
+
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+    @method_decorator(cache_page(60 * 10))
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+    @method_decorator(cache_page(60))
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+
+
+# cache_lab/urls.py
+from django.urls import path
+from rest_framework.routers import DefaultRouter
+
+from .views import (
+    ProductViewSet,
+    cache_test,
+    product_list,
+    selective_cache_view,
+)
+
+
+router = DefaultRouter()
+router.register("viewset-products", ProductViewSet)
+
+
+urlpatterns = [
+    path("cache-test/", cache_test, name="cache-test"),
+    path("products/", product_list, name="product-list"),
+    path("selective-cache/", selective_cache_view, name="selective-cache"),
+]
+
+urlpatterns += router.urls
+
+
+# Dodanie istniejących przykładowych produktów do bazy danych
+python manage.py shell
+
+from cache_lab.models import Product
+
+Product.objects.create(name="Kanapka z jajkiem")
+Product.objects.create(name="Tost z szynką i serem")
+
+exit()
+
+
+# Uruchomienie serwera
+python manage.py runserver
+
+
+# Widok listy produktów
+
+Method: GET
+URL: http://127.0.0.1:8000/api/viewset-products/
+
+# Metoda list jest cachowana przez 10 minut.
+
+
+# Widok szczegółów produktu
+
+Method: GET
+URL: http://127.0.0.1:8000/api/viewset-products/1/
+
+# Metoda retrieve jest cachowana przez 1 minutę.
+
+
+# Metody create, update, partial_update oraz destroy
+# nie zostały objęte dekoratorem cache_page,
+# dlatego ich odpowiedzi nie są cachowane.

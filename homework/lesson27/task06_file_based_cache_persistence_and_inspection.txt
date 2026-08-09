@@ -1,0 +1,26 @@
+# Utworzenie katalogu dla cache plikowego
+mkdir django_cache
+
+
+# config/settings.py
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": BASE_DIR / "django_cache",
+    }
+}
+
+
+# Uruchomienie serwera
+python manage.py runserver
+
+
+# Odwołanie do cachowanego widoku z zadania 3
+http://127.0.0.1:8000/api/products/
+
+
+# Po pierwszym odwołaniu do widoku w katalogu django_cache
+# zostały utworzone pliki z rozrzeszeniem .djcache.
+
+# Pliki zawierają dane cache zapisanane przez Django w formacie binarnym.
+# Nie są one bezpośrednio czytelne jako zwykły tekst w edytorze.

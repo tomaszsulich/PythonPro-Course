@@ -1,0 +1,32 @@
+# Utworzenie i aktywacja środowiska wirtualnego
+python -m venv .venv
+
+.venv\Scripts\activate
+
+
+# Instalacja Django i Django REST Framework
+pip install django djangorestframework
+
+# Zapisanie zależności do pliku requirements.txt
+pip freeze > requirements.txt
+
+
+# Utworzenie projektu
+django-admin startproject config .
+
+
+# Utworzenie aplikacji
+python manage.py startapp cache_lab
+
+
+# config/settings.py
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'rest_framework',
+    'cache_lab',
+]

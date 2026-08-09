@@ -1,0 +1,25 @@
+# Uruchomienie Django shell
+python manage.py shell
+
+
+# Import cache
+from django.core.cache import cache
+
+
+# Zapisanie wartości w cache na 30 sekund
+cache.set("my_key", "hello_world", 30)
+
+
+# Odczyt wartości przed wygaśnięciem cache
+cache.get("my_key")
+
+OUTPUT:
+'hello_world'
+
+
+# Po upływie 30 sekund ponowny odczyt wartości
+cache.get("my_key")
+
+
+# Wartość przypisana do klucza "my_key" wygasła po 30 sekundach
+# i nie jest już dostępna w cache.

@@ -1,0 +1,25 @@
+# Uruchomienie Django shell
+python manage.py shell
+
+
+# Import cache
+from django.core.cache import cache
+
+
+# Dodanie przykładowej wartości do cache
+cache.set("my_key", "hello_world", 300)
+
+cache.get("my_key")
+
+OUTPUT:
+'hello_world'
+
+
+# Wyczyszczenie całego cache
+cache.clear()
+
+
+# Ponowna próba odczytu
+cache.get("my_key")
+
+# Wartość nie jest już dostępna w cache.

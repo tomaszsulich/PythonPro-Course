@@ -1,0 +1,77 @@
+# cache_lab/views.py
+import time
+
+from django.contrib.auth.models import User
+from django.core.cache import cache
+from django.shortcuts import render
+from django.views.decorators.cache import cache_page
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+
+def cache_test(request):
+    return render(
+        request,
+        "cache_lab/cache_test.html",
+    )
+
+
+@cache_page(60)
+@api_view(["GET"])
+def product_list(request):
+    return Response(
+        {
+            "products": [
+                {"id": 1, "name": "Kanapka z jajkiem"},
+                {"id": 2, "name": "Tost z szynką i serem"},
+            ]
+        }
+    )
+    
+
+@api_view(["GET"])
+def selective_cache_view(request):
+    user_count = User.objects.count()
+    
+    cache_key = "complex_calculation_result"
+    complex_result = cache.get(cache_key)
+    
+    if complex_result is None:
+        time.sleep(3)
+        complex_result = 42
+        cache.set(cache_key, complex_result, timeout=60)
+        source = "calculated"
+    else:
+        source = "cache"
+        
+    return Response(
+        {
+            "user_count": user_count,
+            "complex_result": complex_result,
+            "source": source,
+        }
+    )
+
+
+# cache_lab/urls.py
+from django.urls import path
+from .views import cache_test, product_list, selective_cache_view
+
+
+urlpatterns = [
+    path("cache-test/", cache_test, name="cache-test"),
+    path("products/", product_list, name="product-list"),
+    path("selective-cache/", selective_cache_view, name="selective-cache"),
+]
+
+
+# Uruchomienie serwera
+python manage.py runserver
+
+
+# Endpoint wykorzystany do testowania selektywnego cache
+http://127.0.0.1:8000/api/selective-cache/
+
+
+# Panel SQL potwierdza wykonanie zapytania COUNT do tabeli auth_user
+# również przy pobraniu wyniku kosztownego obliczenia z cache.

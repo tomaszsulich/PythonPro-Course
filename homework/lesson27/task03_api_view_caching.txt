@@ -1,0 +1,89 @@
+# cache_lab/views.py
+from django.shortcuts import render
+from django.views.decorators.cache import cache_page
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+
+def cache_test(request):
+    return render(
+        request,
+        "cache_lab/cache_test.html",
+    )
+
+
+@cache_page(60)
+@api_view(["GET"])
+def product_list(request):
+    return Response(
+        {
+            "products": [
+                {"id": 1, "name": "Kanapka z jajkiem"},
+                {"id": 2, "name": "Tost z szynką i serem"},
+            ]
+        }
+    )
+
+
+# cache_lab/urls.py
+from django.urls import path
+
+from .views import cache_test, product_list
+
+
+urlpatterns = [
+    path("cache-test/", cache_test, name="cache-test"),
+    path("products/", product_list, name="product-list"),
+]
+
+
+# config/urls.py
+from django.contrib import admin
+from django.urls import include, path
+
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("__debug__/", include("debug_toolbar.urls")),
+    path("api/", include("cache_lab.urls")),
+]
+
+
+<!-- cache_lab/templates/cache_lab/cache_test.html -->
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Cache Test</title>
+</head>
+<body>
+    <h1>Cache Test</h1>
+
+    <button id="load-products">
+        Pobierz produkty
+    </button>
+
+    <pre id="result"></pre>
+
+    <script>
+        document
+            .getElementById("load-products")
+            .addEventListener("click", async () => {
+                const response = await fetch("/api/products/");
+                const data = await response.json();
+
+                document.getElementById("result").textContent =
+                    JSON.stringify(data, null, 2);
+            });
+    </script>
+</body>
+</html>
+
+
+# Uruchomienie serwera
+python manage.py runserver
+
+
+# Endpoint wykorzystany do testu cache
+http://127.0.0.1:8000/api/products/
