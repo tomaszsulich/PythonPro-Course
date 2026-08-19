@@ -1,5 +1,6 @@
 wzrost = float(input("Podaj wzrost:"))
 czy_opiekun = input("Czy z opiekunem?")
+
 if(czy_opiekun == "tak"):
     czy_opiekun_bool = True
 else:
