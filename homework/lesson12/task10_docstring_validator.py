@@ -1,5 +1,5 @@
 class MetaWalidujMetody(type):
-    """Metaklasa sprawdzająca obecność docstringów w metodach klasy"""
+    """Metaklasa sprawdzająca obecność docstringów w metodach klasy."""
 
     def __new__(cls, name: str, bases: tuple, dct: dict):
         metody_bez_docstringa = []

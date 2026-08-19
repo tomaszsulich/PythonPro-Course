@@ -1,6 +1,7 @@
-def pobierz_dodatnia_liczbe(komunikat):
+def pobierz_dodatnia_liczbe(komunikat: str):
     while True:
         wartosc = float(input(komunikat))
+        
         if wartosc > 0:
             return wartosc
         print("Wartość musi być większa od zera.")

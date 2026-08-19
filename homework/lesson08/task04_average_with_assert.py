@@ -6,7 +6,7 @@ def oblicz_srednia(lista_ocen: list[float | int]) -> float:
     return sum(oceny) / len(oceny)
 
 
-def main():
+def main() -> None:
     lista_ocen = [5, 7, 13, 28, 54, 32, 65, 11, 76]
     wynik = oblicz_srednia(lista_ocen)
     

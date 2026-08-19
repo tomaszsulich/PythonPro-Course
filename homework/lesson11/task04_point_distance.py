@@ -1,5 +1,5 @@
 class Punkt:
-    """Reprezentuje punkt w przestrzeni 2D"""
+    """Reprezentuje punkt w przestrzeni 2D."""
     
     def __init__(self, x: float, y: float) -> None:
         self.x = x
@@ -9,7 +9,7 @@ class Punkt:
         return f"({self.x}, {self.y})"
     
     def odleglosc_od_zera(self) -> float:
-        """Zwraca odległość punktu od środka układu współrzędnych"""
+        """Zwraca odległość punktu od środka układu współrzędnych."""
         return (self.x ** 2 + self.y ** 2) ** 0.5
     
 

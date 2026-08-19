@@ -1,11 +1,12 @@
-from sqlalchemy import Column, Integer, String, Boolean, DateTime
 import datetime
+from sqlalchemy import Column, Integer, String, Boolean, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base() # Klasa bazowa dla naszych modeli
 
 class Zadanie(Base):
     __tablename__ = 'zadania' # Nazwa tabeli w bazie danych
+    
     id = Column(Integer, primary_key=True)
     opis = Column(String, nullable=False)
     zrobione = Column(Boolean, default=False, nullable=False)

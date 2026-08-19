@@ -1,5 +1,5 @@
 class Uzytkownik:
-    """Reprezentuje użytkownika z walidowanym wiekiem"""
+    """Reprezentuje użytkownika z walidowanym wiekiem."""
     
     def __init__(self, wiek: int) -> None:
         self._wiek = wiek

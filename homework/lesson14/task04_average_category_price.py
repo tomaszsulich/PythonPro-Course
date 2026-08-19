@@ -1,7 +1,7 @@
 from shop_db import get_connection
 
 def get_average_category_price(category: str = "Książki") -> tuple[str, float] | None:
-    """Oblicza średnią cenę produktów z określonej kategorii"""
+    """Oblicza średnią cenę produktów z określonej kategorii."""
 
     average_category_price_sql = """--sql
         SELECT k.nazwa_kategorii, AVG(p.cena)
@@ -10,6 +10,7 @@ def get_average_category_price(category: str = "Książki") -> tuple[str, float]
         ON p.id_kategorii = k.id_kategorii
         WHERE LOWER(TRIM(k.nazwa_kategorii)) = LOWER(TRIM(?))
     """
+    
     with get_connection() as conn:
         c = conn.cursor()
         result = c.execute(average_category_price_sql, (category,)).fetchone()
@@ -21,6 +22,7 @@ def get_average_category_price(category: str = "Książki") -> tuple[str, float]
 
 def main() -> None:
     kategoria = input(f"Podaj nazwę kategorii do obliczenia średniej ceny produktów: ").strip()
+    
     if not kategoria:
         kategoria = "Książki"
         

@@ -1,4 +1,4 @@
-def pobierz_liczbe() -> float:
+def pobierz_liczbe():
     return float(input("Podaj liczbę: ").replace(",", "."))
         
 def kalkulator() -> None:
@@ -48,7 +48,7 @@ def kalkulator() -> None:
             break
 
 
-def main():    
+def main() -> None:    
     kalkulator()
         
         

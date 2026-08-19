@@ -42,7 +42,7 @@ def task_manager() -> None:
             print("Niepoprawna opcja.")
     
 
-def main():
+def main() -> None:
     task_manager()
     
     

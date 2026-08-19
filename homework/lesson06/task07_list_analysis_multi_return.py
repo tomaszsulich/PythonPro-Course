@@ -1,4 +1,4 @@
-def analiza_listy(lista: list[int]):
+def analiza_listy(lista: list[int]) -> tuple[int, int, int]:
     return min(lista), max(lista), sum(lista)
 
 print(analiza_listy([1, 2, 3, 8, 6, 5, 7]))

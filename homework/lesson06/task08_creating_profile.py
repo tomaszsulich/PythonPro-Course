@@ -1,4 +1,4 @@
-def stworz_profil(imie, **dane_dodatkowe):
+def stworz_profil(imie: str, **dane_dodatkowe) -> dict:
     profil = {"imię": imie}
     
     for klucz, wartosc in dane_dodatkowe.items():
@@ -6,7 +6,7 @@ def stworz_profil(imie, **dane_dodatkowe):
         
     return profil
 
-def wyswietl_profil(profil):
+def wyswietl_profil(profil: dict) -> None:
     for klucz, wartosc in profil.items():
         print(f"{klucz}: {wartosc}")
     print()

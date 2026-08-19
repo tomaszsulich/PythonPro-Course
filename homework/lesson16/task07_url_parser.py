@@ -40,6 +40,7 @@ def parse_url(url: str) -> dict:
     
 def main() -> None:
     url = input("Podaj adres URL: ")
+    
     try:
         print(parse_url(url))
     except ValueError as e:

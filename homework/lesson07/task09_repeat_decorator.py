@@ -1,13 +1,13 @@
-def powtorz(n):
+def powtorz(n: int):
     def dekorator(funkcja):
-        def wrapper():
+        def wrapper() -> None:
             for _ in range(n):
                 funkcja()
         return wrapper
     return dekorator
 
 @powtorz(3)
-def przywitaj():
+def przywitaj() -> None:
     print("Cześć!")
     
 przywitaj()

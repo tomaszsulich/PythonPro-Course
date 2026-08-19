@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 class BrakSrodkowError(Exception):
-    """Wyjątek zgłaszany przy próbie wypłaty kwoty większej niż dostępne saldo"""
+    """Wyjątek zgłaszany przy próbie wypłaty kwoty większej niż dostępne saldo."""
 
 @dataclass
 class KontoBankowe:

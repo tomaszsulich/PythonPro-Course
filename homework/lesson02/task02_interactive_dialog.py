@@ -6,7 +6,7 @@ def pobierz_uzytkownika() -> dict: #informuje o tym, że funkcja zwraca słownik
         
     return dane_uzytkownika
 
-def odmiana_lat(wiek):
+def odmiana_lat(wiek) -> str:
     if wiek == 1:
         return "rok"
     elif 2 <= wiek % 10 <= 4 and not 12 <= wiek % 100 <= 14:

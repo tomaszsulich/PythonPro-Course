@@ -1,12 +1,12 @@
 def loguj(funkcja):
-    def wrapper():
+    def wrapper() -> None:
         print(f"Uruchamiam funkcję {funkcja.__name__}...")
         funkcja()
         print(f"Zakończono funkcję {funkcja.__name__}.")
     return wrapper
 
 @loguj
-def przywitaj():
+def przywitaj() -> None:
     print("Cześć!")
     
 przywitaj()

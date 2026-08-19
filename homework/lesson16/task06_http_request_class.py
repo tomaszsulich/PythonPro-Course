@@ -1,7 +1,7 @@
 class HttpRequest:
     """Reprezentuje model żądania HTTP wykorzystywany do komunikacji Klient-Serwer."""
         
-    def __init__(self, method: str, target: str, headers: dict = None, body: str = None) -> None:
+    def __init__(self, method: str, target: str, headers: dict | None = None, body: str | None = None) -> None:
         self.method = method
         self.target = target
         self.headers = headers or {}
@@ -26,6 +26,7 @@ def main() -> None:
         },
         body='{"title": "New Article", "content": "This is the content of the new article."}'
     )
+    
     http_request.display()
 
 

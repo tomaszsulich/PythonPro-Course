@@ -1,7 +1,7 @@
 def stworz_licznik():
     i = 0
     
-    def licznik():
+    def licznik() -> int:
         nonlocal i
         i += 1
         return i

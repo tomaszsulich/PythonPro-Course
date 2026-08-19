@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, Response
 from flask_sqlalchemy import SQLAlchemy
 
+
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = (
@@ -9,6 +10,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = (
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
 
 class Registration(db.Model):
     """
@@ -79,7 +81,8 @@ class Registration(db.Model):
             name = name,
             email = email,
         ), []
-        
+
+
 @app.route("/register", methods=["GET", "POST"])
 def register() -> Response | str:
     """
@@ -111,6 +114,7 @@ def register() -> Response | str:
         return redirect(url_for("thank_you"))
     return render_template("register.html")
 
+
 @app.route("/thank-you")
 def thank_you() -> str:
     return """
@@ -118,9 +122,9 @@ def thank_you() -> str:
         <a href="/register">Wróć do formularza</a>
     """
 
-with app.app_context():
-    db.create_all()
-
   
 if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
+        
     app.run(debug=True)

@@ -1,6 +1,7 @@
 from flask import render_template, request
 from task08_product_model import app, Product
 
+
 @app.route("/products")
 def display_products() -> str:
     """

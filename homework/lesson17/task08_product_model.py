@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
+
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = (
@@ -9,6 +10,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = (
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
 
 class Product(db.Model):
     """
@@ -62,7 +64,7 @@ class Product(db.Model):
             print("Taki produkt już istnieje.")
             return existing_product
         
-        product = cls (
+        product = cls(
             name = normalized_name,
             company = normalized_company,
             price = price,
@@ -76,5 +78,6 @@ class Product(db.Model):
     def __repr__(self) -> str:
         return f'<{self.name} {self.company}: {self.price}>'
     
+
 with app.app_context():
     db.create_all()

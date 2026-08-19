@@ -1,6 +1,6 @@
 NAZWA_PLIKU = "dziennik.txt"
 
-def dziennik(nazwa_pliku: str = NAZWA_PLIKU) -> None:
+def dziennik() -> None:
     while True:
         linia = input("Wpisz tekst: ")
         

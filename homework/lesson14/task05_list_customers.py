@@ -4,12 +4,13 @@ DEFAULT_CUSTOMER_COLUMNS = ("imie", "email")
 ALLOWED_CUSTOMER_COLUMNS = {"imie", "email"}
 
 def get_customers(columns: tuple[str, str] = DEFAULT_CUSTOMER_COLUMNS) -> list[tuple[str, str]]:
-    """Pobiera listę klientów wraz z ich adresami e-mail"""
+    """Pobiera listę klientów wraz z ich adresami e-mail."""
     selected_columns = ", ".join(columns)
     
     customers_sql = f"""--sql
         SELECT {selected_columns} FROM klienci
     """
+    
     with get_connection() as conn:
         return conn.cursor().execute(customers_sql).fetchall()
     
@@ -48,6 +49,7 @@ def main() -> None:
         return
     
     print("\nLista klientów:")
+    
     for klient in klienci:
         print(" - ".join(klient))
         

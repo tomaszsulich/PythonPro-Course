@@ -1,9 +1,10 @@
 from students_db import get_connection
 
 def znajdz_sale_studenta(nazwisko: str) -> list[tuple[str, str, str, int]]:
-    """Zwraca audytoria przypisane do studenta o podanym nazwisku"""
+    """Zwraca audytoria przypisane do studenta o podanym nazwisku."""
     if not isinstance(nazwisko, str):
         raise TypeError("Nazwisko studenta musi być stringiem!")
+    
     with get_connection() as conn:
         c = conn.cursor()
         

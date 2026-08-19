@@ -1,4 +1,4 @@
-def czy_pierwsza(n: int):
+def czy_pierwsza(n: int) -> bool:
     startidx = 2
     if n % 2 == 1:
         startidx = 3

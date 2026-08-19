@@ -3,13 +3,13 @@ class WiekNiepoprawnyError(Exception):
     pass
 
 
-def rejestruj_uzytkownika(wiek: int) -> str:
+def rejestruj_uzytkownika(wiek: int) -> None:
     if wiek < 18:
         raise WiekNiepoprawnyError("Masz mniej niż 18 lat.")
     print("Masz co najmniej 18 lat.")
 
 
-def main():
+def main() -> None:
     while True:
         try:
             wiek = int(input("Podaj wiek: "))

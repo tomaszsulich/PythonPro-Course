@@ -1,4 +1,4 @@
-def opis_ksiazki(tytul, autor, rok_wydania = 2024):
+def opis_ksiazki(tytul: str, autor: str, rok_wydania: int = 2024) -> str:
     return f"Książka '{tytul}' została napisana przez {autor} i wydana w roku {rok_wydania}."
 
 # test z argumentami pozycyjnymi

@@ -1,0 +1,14 @@
+# Przejście na pulpit
+cd Desktop
+
+# Stworzenie folderu projektu
+mkdir moj_pierwszy_projekt
+
+# Przejście do właśnie stworzonego folderu
+cd moj_pierwszy_projekt
+
+# Stworzenie pustego pliku main.py
+touch main.py
+
+# Wyświetlenie zawartości folderu
+ls

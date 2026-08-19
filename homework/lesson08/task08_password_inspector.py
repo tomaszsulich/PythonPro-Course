@@ -27,7 +27,7 @@ def sprawdz_haslo(haslo: str) -> list[str]:
     return bledy
 
 
-def main():
+def main() -> None:
     while True:
         haslo = input("Podaj hasło: ")
         

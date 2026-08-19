@@ -11,7 +11,7 @@ def calculator(a: float | int, b: float | int) -> None:
     print(dodaj, odejmij, pomnoz, podziel, sep = "\n")
 
 
-def main():
+def main() -> None:
     a = float(input("Podaj pierwszą liczbę: "))
     b = float(input("Podaj drugą liczbę: "))
     calculator(a, b)

@@ -1,5 +1,5 @@
 class Figura:
-    """Klasa bazowa dla różnych figur geometrycznych"""
+    """Klasa bazowa dla różnych figur geometrycznych."""
     
     def oblicz_pole(self) -> float:
         pass
@@ -13,12 +13,12 @@ class Kwadrat(Figura):
         return self.bok ** 2
     
 class Kolo(Figura):
-    
+    PI = 3.14159
     def __init__(self, promien: float) -> None:
         self.promien = promien
         
     def oblicz_pole(self) -> float:
-        return 3.14159 * self.promien ** 2
+        return self.PI * self.promien ** 2
     
 
 def main() -> None:

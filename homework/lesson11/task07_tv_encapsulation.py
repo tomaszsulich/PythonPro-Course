@@ -1,5 +1,5 @@
 class Telewizor:
-    """Prosty model telewizora z enkapsulacją kanału i głośności"""
+    """Prosty model telewizora z enkapsulacją kanału i głośności."""
     
     def __init__(self, kanal: int = 1, glosnosc: int = 10, wlaczony: bool = False) -> None:
         self.__kanal = kanal

@@ -13,7 +13,7 @@ def zsumuj_ceny() -> float:
         return 0.0
             
 
-def main():
+def main() -> None:
     print(f"Suma cen: {zsumuj_ceny()}")
     
     

@@ -7,7 +7,7 @@ class Data:
         
     @classmethod
     def ze_stringa(cls, data_str: str) -> "Data":
-        """Tworzy obiekt Data z napisu w formacie DD-MM-RRRR"""
+        """Tworzy obiekt Data z napisu w formacie DD-MM-RRRR."""
         
         
         dzien, mies, rok = map(int, data_str.split('-'))

@@ -1,0 +1,3 @@
+Shared deployment instructions for the production environment.
+Rollback steps must be verified before every production release.
+Production deployment requires approval from the release manager.

@@ -1,5 +1,5 @@
 class Wektor2D:
-    """Reprezentuje wektor w przestrzeni 2D"""
+    """Reprezentuje wektor w przestrzeni 2D."""
     
     def __init__(self, x: float, y: float) -> None:
         self.x = x

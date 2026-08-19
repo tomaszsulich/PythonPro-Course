@@ -1,7 +1,7 @@
 from shop_db import get_connection
 
 def get_most_expensive_product() -> tuple[str, float] | None:
-    """Zwraca nazwę i cenę najdroższego produktu"""
+    """Zwraca nazwę i cenę najdroższego produktu."""
 
     most_expensive_product_sql = """--sql
         SELECT nazwa_produktu, cena

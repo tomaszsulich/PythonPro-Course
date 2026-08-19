@@ -1,4 +1,6 @@
 def validate_request(request_dict: dict) -> None:
+    """Weryfikuje obecność obowiązkowych nagłówków wymaganych do obsługi żądania HTTP."""
+    
     headers = request_dict.get("headers", {})
     
     required_headers = ("Host", "User-Agent")
@@ -15,7 +17,7 @@ def validate_request(request_dict: dict) -> None:
         )
         
 
-def main():
+def main() -> None:
     correct_request = {
         "headers": {
             "Host": "eu.app.com",

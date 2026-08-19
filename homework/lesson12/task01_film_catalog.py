@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 @dataclass
 class Film:
-    """Reprezentuje film wraz z podstawowymi informacjami"""
+    """Reprezentuje film wraz z podstawowymi informacjami."""
     
     tytul: str
     rezyser: str

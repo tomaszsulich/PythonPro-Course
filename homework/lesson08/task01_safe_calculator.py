@@ -46,7 +46,7 @@ def kalkulator() -> None:
             break
 
 
-def main():    
+def main() -> None:    
     kalkulator()
         
         

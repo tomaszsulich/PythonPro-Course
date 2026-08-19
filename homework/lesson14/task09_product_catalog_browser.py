@@ -3,7 +3,7 @@ from task06_dynamic_query_builder import display_query_results
 
 # TUTAJ LEPIEJ WYGLĄDAŁOBY NP. find_products_in_category, ALE POLECENIE WYMAGAŁO PL
 def znajdz_produkty_w_kategorii(nazwa_kategorii: str = "Elektronika") -> list[tuple[str, float]]:
-    """Wyszukuje produkty należące do wskazanej kategorii niezależnie od wielkości liter"""
+    """Wyszukuje produkty należące do wskazanej kategorii niezależnie od wielkości liter."""
     
     category_products_sql = """--sql
         SELECT p.nazwa_produktu, p.cena
@@ -13,11 +13,12 @@ def znajdz_produkty_w_kategorii(nazwa_kategorii: str = "Elektronika") -> list[tu
         WHERE LOWER(TRIM(k.nazwa_kategorii)) = LOWER(TRIM(?))
         ORDER BY p.nazwa_produktu
     """
+    
     with get_connection() as conn:
         return conn.cursor().execute(category_products_sql,(nazwa_kategorii,)).fetchall()
 
 def get_category_display_name(category: str) -> str | None:
-    """Zwraca nazwę kategorii w formacie zapisanym w bazie danych"""
+    """Zwraca nazwę kategorii w formacie zapisanym w bazie danych."""
     
     category_display_name_sql = """--sql
     SELECT nazwa_kategorii FROM Kategorie
@@ -25,6 +26,7 @@ def get_category_display_name(category: str) -> str | None:
     AND TRIM(nazwa_kategorii) != ''
     AND LOWER(nazwa_kategorii) = LOWER(?)
     """
+    
     with get_connection() as conn:
         result = conn.cursor().execute(category_display_name_sql, (category,)).fetchone()
     
@@ -35,6 +37,7 @@ def get_category_display_name(category: str) -> str | None:
     
 def main() -> None:
     kategoria = input("Podaj kategorię, w której chcesz znaleźć produkty: ").strip()
+    
     if not kategoria:
         kategoria = "Elektronika"
     

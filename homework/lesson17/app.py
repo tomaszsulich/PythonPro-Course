@@ -1,7 +1,8 @@
-from random import choice
-from flask import Flask, render_template, request
-from typing import TypedDict, NotRequired
 from itertools import permutations
+from random import choice
+from typing import TypedDict, NotRequired
+from flask import Flask, render_template, request
+
 
 class Movie(TypedDict):
     """
@@ -14,7 +15,8 @@ class Movie(TypedDict):
     genre: str
     description: str
     genre_index: NotRequired[int]
-    
+
+
 class Book(TypedDict):
     """
     Określa strukturę danych pojedynczej książki.
@@ -26,6 +28,7 @@ class Book(TypedDict):
     title: str
     author: str
     year: int
+
 
 class GalleryImage(TypedDict):
     """
@@ -40,6 +43,7 @@ class GalleryImage(TypedDict):
 
 
 app = Flask(__name__)
+
 
 @app.route("/movies")
 def show_movies() -> str:
@@ -145,7 +149,8 @@ def show_movies() -> str:
         page_title = "Moje ulubione filmy",
         genre_themes = selected_genre_themes,
     )
-    
+
+
 # Źródło danych dla widoku prezentującego kolekcję książek (zadanie 6)
 @app.route("/books")
 def show_books() -> str:
@@ -244,7 +249,8 @@ def show_books() -> str:
         sort_keys = sort_keys,
         order = order,
     )
-    
+
+
 # Galeria obrazów wraz z przypisanymi opisami (zadanie 7)
 @app.route("/gallery")  
 def gallery() -> str:
@@ -268,6 +274,7 @@ def gallery() -> str:
             "cap": "Kluczowe umiejętności związane z projektowaniem graficznym",
         },
     ]
+    
     return render_template(
         "gallery.html",
         imgs = imgs,

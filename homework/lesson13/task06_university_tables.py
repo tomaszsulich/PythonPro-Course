@@ -1,7 +1,7 @@
 from students_db import get_connection
 
 def stworz_tab_studenci() -> None:
-    """Tworzy tabelę studentów w bazie danych"""
+    """Tworzy tabelę studentów w bazie danych."""
     with get_connection() as conn:
         c = conn.cursor()
         
@@ -13,7 +13,7 @@ def stworz_tab_studenci() -> None:
         print("Tabela 'studenci' jest gotowa do użycia.")
         
 def stworz_tab_audytoria() -> None:
-    """Tworzy tabelę audytoriów w bazie danych"""
+    """Tworzy tabelę audytoriów w bazie danych."""
     with get_connection() as conn:
         c = conn.cursor()
         

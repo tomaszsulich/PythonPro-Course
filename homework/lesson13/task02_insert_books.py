@@ -1,7 +1,7 @@
 from library_db import get_connection
 
 def dodaj_ksiazki(ksiazki: list[tuple[str, str, int]]) -> None:
-    """Dodaje wiele książęk do tabeli ksiazki"""
+    """Dodaje wiele książek do tabeli ksiazki."""
     with get_connection() as conn:
         c = conn.cursor()
         
@@ -11,6 +11,7 @@ def dodaj_ksiazki(ksiazki: list[tuple[str, str, int]]) -> None:
         
         ksiazki_w_bazie = c.fetchall()
         print("Książki w bazie:")
+        
         for ksiazka in ksiazki_w_bazie:
             print(ksiazka)
         
@@ -21,6 +22,7 @@ def main() -> None:
             ("Krzyk", "Tokuro Nukui", 1993),
             ("W mroku płytkich kłamstw", "Ginny Myers Sain", 2022)
         ]
+    
     dodaj_ksiazki(ksiazki_do_dodania)
     
     

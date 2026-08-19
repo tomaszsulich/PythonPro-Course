@@ -11,7 +11,7 @@ student = {
     'czy_student': czy_student
 }
 
-def opisz_zmienna(zmienna):
+def opisz_zmienna(zmienna) -> str:
     return f"{type(zmienna).__name__}"
 
 for key, value in student.items():

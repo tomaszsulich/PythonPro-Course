@@ -1,6 +1,6 @@
 POZIOM_DOSTEPU = "user"
 
-def zmien():
+def zmien() -> None:
     POZIOM_DOSTEPU = "admin"
     print("W funkcji: ", POZIOM_DOSTEPU)
     

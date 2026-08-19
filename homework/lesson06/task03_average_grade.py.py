@@ -1,4 +1,4 @@
-def oblicz_srednia(*args):
+def oblicz_srednia(*args: int | float) -> int | float:
     if len(args) == 0:
         return 0
     

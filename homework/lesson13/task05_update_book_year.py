@@ -1,7 +1,7 @@
 from library_db import get_connection
 
 def zaktualizuj_rok(autor: str, tytul: str, nowy_rok: int) -> None:
-    """Zmienia rok wydania książki i wyświetla zaktualizowany rekord"""
+    """Zmienia rok wydania książki i wyświetla zaktualizowany rekord."""
     with get_connection() as conn:
         c = conn.cursor()
         

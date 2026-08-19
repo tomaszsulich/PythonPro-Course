@@ -2,10 +2,11 @@ import sqlite3
 
 DATABASE_NAME = 'todo_raw.db'
 
-def init_db():
+def init_db() -> None:
     """Inicjalizuje bazę danych i tworzy tabelę, jeśli nie istnieje."""
     with sqlite3.connect(DATABASE_NAME) as conn:
         cursor = conn.cursor()
+        
         # Używamy IF NOT EXISTS, aby uniknąć błędu przy ponownym uruchomieniu
         cursor.execute("""--sql
         CREATE TABLE IF NOT EXISTS zadania (
@@ -13,48 +14,66 @@ def init_db():
         opis TEXT NOT NULL,
         zrobione BOOLEAN NOT NULL DEFAULT 0 CHECK (zrobione IN (0, 1)),
         priorytet INTEGER DEFAULT 1
-        )
-        """)
+        )""")
+        
         conn.commit()
 
-def alter_dodaj_prio():
+
+def alter_dodaj_prio() -> None:
     """Dodaje kolumnę priorytet do istniejącej tabeli."""
     qr = """--sql
     ALTER TABLE zadania
     ADD COLUMN priorytet INTEGER DEFAULT 1
     """
+    
     with sqlite3.connect(DATABASE_NAME) as conn:
         cursor = conn.cursor()
+        
+        cursor.execute("PRAGMA table_info(zadania)")
         columns = [col[1] for col in cursor.fetchall()]
+        
         if 'priorytet' not in columns:
             cursor.execute(qr)
             conn.commit()
-            
-def dodaj_zadanie(opis: str, prio: int = 1):
+
+
+def dodaj_zadanie(opis: str, prio: int = 1) -> None:
     """Dodaje nowe zadanie do bazy danych."""
     with sqlite3.connect(DATABASE_NAME) as conn:
         cursor = conn.cursor()
+        
         # Używamy placeholderów (?), aby zapobiec SQL Injection
-        cursor.execute("INSERT INTO zadania (opis, priorytet) VALUES (?, ?)", 
-        (opis, prio))
+        cursor.execute(
+            "INSERT INTO zadania (opis, priorytet) VALUES (?, ?)",
+            (opis, prio)
+        )
+        
         conn.commit()
         
+
 def pobierz_zadania():
     """Pobiera wszystkie zadania z bazy danych."""
     with sqlite3.connect(DATABASE_NAME) as conn:
         cursor = conn.cursor()
         cursor.execute("SELECT id, opis, zrobione, priorytet FROM zadania")
+        
         return cursor.fetchall()
     
-def oznacz_jako_zrobione(id_zadania: int):
+
+def oznacz_jako_zrobione(id_zadania: int) -> None:
     """Oznacza zadanie o podanym ID jako zrobione."""
     with sqlite3.connect(DATABASE_NAME) as conn:
         cursor = conn.cursor()
-        cursor.execute("UPDATE zadania SET zrobione = ? WHERE id = ?", 
-        (True, id_zadania))
+        
+        cursor.execute(
+            "UPDATE zadania SET zrobione = ? WHERE id = ?", 
+            (True, id_zadania)
+        )
+        
         conn.commit()
         
-def usun_zadanie(id_zadania: int):
+
+def usun_zadanie(id_zadania: int) -> None:
     """Usuwa zadanie o podanym ID z bazy danych."""
     with sqlite3.connect(DATABASE_NAME) as conn:
         cursor = conn.cursor()

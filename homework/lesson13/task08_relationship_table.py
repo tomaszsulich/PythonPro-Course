@@ -1,7 +1,7 @@
 from students_db import get_connection
 
 def stworz_tab_przypisania() -> None:
-    """Tworzy tabelę relacji między studentami i audytoriami"""
+    """Tworzy tabelę relacji między studentami i audytoriami."""
     with get_connection() as conn:
         c = conn.cursor()
         

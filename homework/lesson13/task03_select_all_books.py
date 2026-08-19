@@ -1,7 +1,7 @@
 from library_db import get_connection
 
 def zwroc_ksiazki() -> list[tuple[str, str, int]]:
-    """Zwraca wszystkie książki zapisane w bazie danych"""
+    """Zwraca wszystkie książki zapisane w bazie danych."""
     with get_connection() as conn:
         c = conn.cursor()
         c.execute("SELECT * FROM ksiazki")

@@ -1,7 +1,7 @@
 from library_db import get_connection
 
 def zwroc_ksiazki_autora(autor: str) -> list[tuple[str, str, int]]:
-    """Zwraca wszystkie książki podanego autora"""
+    """Zwraca wszystkie książki podanego autora."""
     if not isinstance(autor, str):
         raise TypeError("Autor musi być stringiem!")
     with get_connection() as conn:

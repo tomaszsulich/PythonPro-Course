@@ -19,7 +19,7 @@ COLUMN_LABELS = {
 
 
 class Produkt:
-    """Reprezentuje model produktu mapowany z rekordów relacyjnej bazy danych na obiekty Pythona"""
+    """Reprezentuje model produktu mapowany z rekordów relacyjnej bazy danych na obiekty Pythona."""
     def __init__(self, id_produktu: int, nazwa_produktu: str, cena: float, \
                  id_kategorii: int | None = None, nazwa_kategorii: str | None = None) -> None:
         
@@ -32,7 +32,7 @@ class Produkt:
 
 # TUTAJ LEPIEJ WYGLĄDAŁOBY NP. get_products, ALE POLECENIE WYMAGAŁO PL
 def pobierz_wszystkie_produkty() -> list[Produkt]:
-    """Mapuje rekordy produktów z relacyjnej bazy danych na obiekty klasy Produkt"""
+    """Mapuje rekordy produktów z relacyjnej bazy danych na obiekty klasy Produkt."""
     
     all_products_sql = f"""--sql
         SELECT
@@ -45,6 +45,7 @@ def pobierz_wszystkie_produkty() -> list[Produkt]:
         JOIN Kategorie AS k
         ON k.id_kategorii = p.id_kategorii
     """
+    
     with get_connection() as conn:
         rows = conn.cursor().execute(all_products_sql).fetchall()
         

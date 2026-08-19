@@ -1,4 +1,4 @@
-def pobierz_bool(komunikat):
+def pobierz_bool(komunikat: str):
     while True:
         wartosc = int(input(komunikat))
      

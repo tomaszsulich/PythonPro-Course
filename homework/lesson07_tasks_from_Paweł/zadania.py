@@ -37,7 +37,7 @@ def wczytaj_uczniow(uczniowie: str) -> list[dict]:
         
     return uczniowie_slowniki
 
-def polacz_obecnosc_z_uczniami(uczniowie_slowniki: list, obecnosc: dict) -> list[dict]:
+def polacz_obecnosc_z_uczniami(uczniowie_slowniki: list[dict], obecnosc: dict[str, list[str]]) -> list[dict]:
     for uczen in uczniowie_slowniki:
         imie = uczen["imie"]
         
@@ -75,7 +75,7 @@ def pobierz_przedmioty(uczniowie_slowniki: list[dict]) -> list[str]:
     ]
 
 # Obliczenia bazowe
-def wartosc_oceny(ocena: str) -> float:
+def wartosc_oceny(ocena: str) -> int | float:
     if "+" in ocena:
         return int(ocena[0]) + 0.3
     elif "-" in ocena:
@@ -368,7 +368,7 @@ def wyswietl_skrajne_przedmioty(uczniowie_slowniki: list[dict]) -> None:
     print(f"Najłatwiejszym przedmiotem jest {najlatwiejszy[0]} ze średnią {najlatwiejszy[1]:.2f}.")
 
 
-def main():
+def main() -> None:
     uczniowie_slowniki = wczytaj_uczniow(uczniowie)
     uczniowie_slowniki = polacz_obecnosc_z_uczniami(uczniowie_slowniki, obecnosc)
     

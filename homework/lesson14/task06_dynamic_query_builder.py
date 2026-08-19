@@ -30,9 +30,12 @@ NUMERIC_COLUMN_NAME_MAP_BY_TABLE = {
     for table, columns in ALLOWED_NUMERIC_COLUMNS_BY_TABLE.items()
 }
 
+
 def validate_columns_for_table(columns: tuple[str, ...], table_name: str) -> bool:
-    """Rozróżnia kolumny nieistniejące w bazie od kolumn niedostępnych 
-    w kontekście wybranej tabeli"""
+    """
+    Rozróżnia kolumny nieistniejące w bazie od kolumn niedostępnych 
+    w kontekście wybranej tabeli.
+    """
     
     missing_columns = []
     disallowed_columns = []
@@ -45,11 +48,13 @@ def validate_columns_for_table(columns: tuple[str, ...], table_name: str) -> boo
         
     if missing_columns:
         print("Kolumny nieistniejące w bazie:")
+        
         for column in missing_columns:
             print(f"- {column}")
             
     if disallowed_columns:
         print(f"Kolumny niedostępne dla tabeli '{table_name}':")
+        
         for column in disallowed_columns:
             print(f"- {column}")
     
@@ -58,9 +63,10 @@ def validate_columns_for_table(columns: tuple[str, ...], table_name: str) -> boo
 def get_records_above_average(table_name: str = "Produkty", \
                               columns: tuple[str, ...] = ("nazwa_produktu", "cena"), \
                               comparison_column: str = "cena") -> list[tuple]:
-    
-    """Zwraca rekordy z wybranej tabeli, których wartość wskazanej kolumny jest wyższa \
-        od średniej wartości tej kolumny"""
+    """
+    Zwraca rekordy z wybranej tabeli, których wartość wskazanej kolumny jest wyższa
+    od średniej wartości tej kolumny.
+    """
     
     if table_name not in ALLOWED_TABLES:
         raise ValueError(f"Tabela '{table_name}' nie jest dozwolona!")
@@ -72,6 +78,7 @@ def get_records_above_average(table_name: str = "Produkty", \
             raise ValueError(f"Kolumna '{column}' nie istnieje w tabeli '{table_name}'!")
     
     allowed_numeric_columns = ALLOWED_NUMERIC_COLUMNS_BY_TABLE.get(table_name, set())
+    
     if comparison_column not in allowed_numeric_columns:
         raise ValueError(
             f"Kolumna '{comparison_column}' nie może być użyta do liczenia średniej w tabeli '{table_name}'!"
@@ -83,11 +90,12 @@ def get_records_above_average(table_name: str = "Produkty", \
         SELECT {selected_columns} FROM {table_name}
         WHERE {comparison_column} > (SELECT AVG({comparison_column}) FROM {table_name})
     """
+    
     with get_connection() as conn:
         return conn.cursor().execute(above_average_records_sql).fetchall()
     
 def display_query_results(columns: tuple[str, ...], results: list[tuple]) -> None:
-    """Wyświetla wyniki zapytania w formie prostej tabeli tekstowej"""
+    """Wyświetla wyniki zapytania w formie prostej tabeli tekstowej."""
     
     widths = []
     
@@ -102,13 +110,16 @@ def display_query_results(columns: tuple[str, ...], results: list[tuple]) -> Non
         widths.append(width)
     
     separator = "+"
+    
     for width in widths:
         separator += "-" * (width + 2) + "+"
     print(separator)
     
     header = "|"
+    
     for column, width in zip(columns, widths):
         header += f" {column.center(width)} |"
+        
     print(header)
     print(separator)
     
@@ -128,6 +139,7 @@ def display_query_results(columns: tuple[str, ...], results: list[tuple]) -> Non
  
 def main() -> None:
     tabela = input(f"Podaj nazwę tabeli do zapytania {ALLOWED_TABLES}:\n").strip()
+    
     if not tabela:
         tabela = "Produkty"
     else:
@@ -151,6 +163,7 @@ def main() -> None:
             return 
         
         mapowanie_kolumn = COLUMN_NAME_MAP_BY_TABLE[tabela]
+        
         kolumny = tuple(
             mapowanie_kolumn.get(kolumna.strip().lower())
             for kolumna in kolumny.split(",")
@@ -175,12 +188,14 @@ def main() -> None:
     
     try:
         wyniki = get_records_above_average(tabela, kolumny, kolumna_porownujaca)
+        
         if not wyniki:
             print(f"Nie znaleziono rekordów spełniających warunek.")
             return
     
         print("Rekordy spełniające warunek:")
         display_query_results(kolumny, wyniki)
+        
     except ValueError as e:
         print(e)
         

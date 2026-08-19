@@ -4,19 +4,22 @@ from todo_repository import pobierz_zadania, init_db, dodaj_zadanie, oznacz_jako
 
 DATABASE_NAME = "todo_raw.db"
 
-def pokaz_zadania():
+def pokaz_zadania() -> None:
     """Wyświetla listę wszystkich zadań."""
     zadania = pobierz_zadania()
+    
     if not zadania:
         print("Brak zadań na liście.")
         return
     
     print("\n--- Twoja lista zadań ---")
+    
     for zadanie in zadania:
         status = "✓" if zadanie[2] else "✗"
         print(f"[{status}] ID: {zadanie[0]}, Opis: {zadanie[1]}")
         print("------------------------\n")
-        
+
+
 def wyszukaj_zadania(fraza: str):
     """Wyszukuje zadania zawierające określoną frazę."""
     with sqlite3.connect(DATABASE_NAME) as conn:
@@ -25,7 +28,7 @@ def wyszukaj_zadania(fraza: str):
         return cursor.fetchall()
 
   
-def main():
+def main() -> None:
     # db.init_db()
     init_db() # Upewnij się, że baza i tabela istnieją
     
@@ -37,6 +40,7 @@ def main():
         print("4. Usuń zadanie")
         print("5. Wyszukaj po frazie")
         print("6. Wyjdź")
+        
         wybor = input("Wybierz opcję: ")
         
         if wybor == '1':

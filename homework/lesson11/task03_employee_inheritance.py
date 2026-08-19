@@ -11,7 +11,7 @@ class Programista(Pracownik):
     
     def __init__(self, imie: str, stawka_godzinowa: float, jezyki_programowania: list[str]) -> None:
         super().__init__(imie, stawka_godzinowa)
-        self.jezyki_programowania = jezyki_programowania
+        self.jezyki_programowania: list = jezyki_programowania
         
 
 def main() -> None:

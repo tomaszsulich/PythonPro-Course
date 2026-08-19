@@ -3,6 +3,7 @@ class BladPrzetwarzaniaDanychError(Exception):
 
 
 def przetworz_dane(dane: dict) -> str:
+    """Zwraca imię z danych, logując brak klucza i zgłaszając własny wyjątek."""
     try:
         # przykład: oczekujemy klucza "imie"
         return dane["imie"]
@@ -20,7 +21,7 @@ def przetworz_dane(dane: dict) -> str:
         )
         
         
-def main():
+def main() -> None:
     try:
         przetworz_dane({"nazwisko": "Kowalski"})
     except BladPrzetwarzaniaDanychError as e:

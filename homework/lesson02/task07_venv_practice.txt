@@ -1,0 +1,17 @@
+# Stworzenie folderu
+mkdir project_test
+
+# Wejście do właśnie stworzonego folderu
+cd project_test
+
+# Stworzenie środowiska wirtualnego
+python -m venv .venv
+
+# Aktywacja środowiska wirtualnego
+.venv\Scripts\activate
+
+# Wyświetlenie listy zainstalowanych pakietów
+pip list
+
+# Dezaktywacja środowiska wirtualnego
+deactivate

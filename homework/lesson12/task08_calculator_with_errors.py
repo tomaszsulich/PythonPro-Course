@@ -1,5 +1,5 @@
 def main() -> None:
-    """Uruchamia prosty kalkulator z obsługą wyjątków"""
+    """Uruchamia prosty kalkulator z obsługą wyjątków."""
     
     while True:
         liczba1 = input("Podaj pierwszą liczbę: ")

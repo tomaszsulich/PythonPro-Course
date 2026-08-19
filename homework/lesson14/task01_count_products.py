@@ -4,7 +4,7 @@ ALLOWED_TABLES = {"Kategorie", "Produkty", "Klienci", "Zamowienia", "Zamowienia_
 TABLE_NAME_MAP = {table.lower(): table for table in ALLOWED_TABLES}
 
 def count_records(table_name: str = "Produkty") -> int:
-    """Zlicza liczbę rekordów w określonej tabeli"""
+    """Zlicza liczbę rekordów w określonej tabeli."""
     
     # UWAGA: Nazwa tabeli jest składana przez f-string.
     # Należy upewnić się, że tabela jest dozwolona, aby uniknąć SQL Injection.
@@ -16,6 +16,7 @@ def count_records(table_name: str = "Produkty") -> int:
         SELECT COUNT(*)
         FROM {table_name}
     """
+    
     with get_connection() as conn:
         c = conn.cursor()
         return c.execute(count_records_sql).fetchone()[0]

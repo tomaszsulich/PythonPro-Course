@@ -1,7 +1,7 @@
 from shop_db import get_connection
 
 def prepare_shop_database() -> None:
-    """Tworzy i wypełnia bazę danych na potrzeby zadań"""
+    """Tworzy i wypełnia bazę danych na potrzeby zadań."""
     conn = get_connection()
     cursor = conn.cursor()
     

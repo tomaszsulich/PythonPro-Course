@@ -8,7 +8,7 @@ def pobierz_wartosc_try(slownik: dict[str, object], klucz: str) -> object | None
         return None
 
     
-def main():
+def main() -> None:
     slownik = {"imie": "Tomek"}
     
     print(pobierz_wartosc(slownik, "imie"))

@@ -1,7 +1,7 @@
 from shop_db import get_connection
 
 def get_total_value(category: str = "Elektronika") -> tuple[str, float] | None:
-    """Zwraca łączną wartość produktów z określonej kategorii"""
+    """Zwraca łączną wartość produktów z określonej kategorii."""
     
     total_value_sql = """--sql
         SELECT k.nazwa_kategorii, SUM(p.cena)
@@ -10,6 +10,7 @@ def get_total_value(category: str = "Elektronika") -> tuple[str, float] | None:
         ON p.id_kategorii = k.id_kategorii
         WHERE LOWER(TRIM(k.nazwa_kategorii)) = LOWER(TRIM(?))
     """
+    
     with get_connection() as conn:
         result = conn.cursor().execute(total_value_sql, (category,)).fetchone()
         
@@ -20,6 +21,7 @@ def get_total_value(category: str = "Elektronika") -> tuple[str, float] | None:
 
 def main() -> None:
     kategoria = input(f"Podaj nazwę kategorii do obliczenia łącznej wartości produktów: ").strip()
+    
     if not kategoria:
         kategoria = "Elektronika"
 

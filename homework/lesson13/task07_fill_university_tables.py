@@ -1,7 +1,7 @@
 from students_db import get_connection
 
 def dodaj_studentow(studenci: list[tuple[str, str]]) -> None:
-    """Zapisuje listę studentów w bazie uczelnia.db"""
+    """Zapisuje listę studentów w bazie uczelnia.db."""
     with get_connection() as conn:
         c = conn.cursor()
         
@@ -10,11 +10,13 @@ def dodaj_studentow(studenci: list[tuple[str, str]]) -> None:
         
         studenci_w_bazie = c.fetchall()
         print("Studenci w bazie:")
+        
         for student in studenci_w_bazie:
             print(student)
-            
+
+
 def dodaj_audytoria(audytoria: list[tuple[str, int]]) -> None:
-    """Zapisuje listę audytoriów w bazie uczelnia.db"""
+    """Zapisuje listę audytoriów w bazie uczelnia.db."""
     with get_connection() as conn:
         c = conn.cursor()
         
@@ -24,6 +26,7 @@ def dodaj_audytoria(audytoria: list[tuple[str, int]]) -> None:
         
         audytoria_w_bazie = c.fetchall()
         print("\nAudytoria w bazie:")
+        
         for audytorium in audytoria_w_bazie:
             print(audytorium)
         
@@ -46,6 +49,7 @@ def main() -> None:
             ("Roch", "Janowski"),
             ("Anna", "Wiosnarska")
         ]
+    
     dodaj_studentow(studenci_do_dodania)
     
     audytoria_do_dodania = [
@@ -56,6 +60,7 @@ def main() -> None:
         ("Wydział Prawa i Administracji", 16),
         ("Wydział Nauk Humanistrycznych", 1134)
         ]
+    
     dodaj_audytoria(audytoria_do_dodania)
     
     

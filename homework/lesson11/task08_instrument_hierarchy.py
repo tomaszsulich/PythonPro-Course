@@ -1,8 +1,8 @@
 class Instrument:
-    """Bazowa klasa instrumentów muzycznych"""
+    """Bazowa klasa instrumentów muzycznych."""
     
     def graj(self) -> str:
-        """Zwraca sposób wydawania dźwięku przez instrument"""
+        """Zwraca sposób wydawania dźwięku przez instrument."""
         return "Wydaje dźwięk."
 
 class Strunowy(Instrument):

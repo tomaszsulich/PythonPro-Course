@@ -19,7 +19,7 @@ def sumuj_liczby_z_pliku() -> None:
         print(f"Suma liczb z pliku: {suma}")
         
         
-def main():
+def main() -> None:
     while True:
         sumuj_liczby_z_pliku()
         while True:

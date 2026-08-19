@@ -12,7 +12,7 @@ def wczytaj_plik() -> None:
         plik.close()
             
 
-def main():
+def main() -> None:
     while True:
         wczytaj_plik()
         czy_exit = input("Czy chcesz zakończyć program (tak/nie)? ").lower()
