@@ -1,11 +1,14 @@
 # cache_lab/views.py
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views.decorators.cache import cache_page
+
 from rest_framework.decorators import api_view
+from rest_framework.request import Request
 from rest_framework.response import Response
 
 
-def cache_test(request):
+def cache_test(request: HttpRequest) -> HttpResponse:
     return render(
         request,
         "cache_lab/cache_test.html",
@@ -14,7 +17,7 @@ def cache_test(request):
 
 @cache_page(60)
 @api_view(["GET"])
-def product_list(request):
+def product_list(request: Request):
     return Response(
         {
             "products": [

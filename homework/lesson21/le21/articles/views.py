@@ -1,4 +1,5 @@
 from datetime import timedelta
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 
@@ -6,7 +7,7 @@ from .forms import ArticleForm
 from .models import Article, Category
 
 
-def article_create(request):
+def article_create(request: HttpRequest) -> HttpResponse:
     form = ArticleForm()
 
     if request.method == "POST":
@@ -23,7 +24,7 @@ def article_create(request):
     )
 
 
-def article_list_view(request):
+def article_list_view(request: HttpRequest) -> HttpResponse:
     articles = Article.objects.filter(
         is_published=True,
     ).order_by("-pub_date")
@@ -46,7 +47,7 @@ def article_list_view(request):
     )
 
 
-def category_list_view(request):
+def category_list_view(request: HttpRequest) -> HttpResponse:
     categories = Category.objects.all()
 
     return render(
@@ -56,7 +57,7 @@ def category_list_view(request):
     )
 
 
-def category_detail_view(request, pk):
+def category_detail_view(request: HttpRequest, pk: int) -> HttpResponse:
     category = get_object_or_404(Category, pk=pk)
 
     return render(

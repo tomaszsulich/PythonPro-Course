@@ -1,10 +1,11 @@
 # users/views.py
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 
 
-def home(request):
+def home(request: HttpRequest) -> HttpResponse:
     return render(
         request,
         "home.html",
@@ -12,14 +13,14 @@ def home(request):
 
 
 @login_required
-def profile(request):
+def profile(request: HttpRequest) -> HttpResponse:
     return render(
         request,
         "users/profile.html",
     )
 
 
-def register(request):
+def register(request: HttpRequest) -> HttpResponse:
     if request.method == "POST":
         form = UserCreationForm(request.POST)
 

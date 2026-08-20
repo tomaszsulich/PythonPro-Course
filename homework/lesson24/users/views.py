@@ -3,13 +3,14 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 
 from .forms import CustomUserCreationForm
 
 
 @login_required
-def home(request):
+def home(request: HttpRequest) -> HttpResponse:
     return render(
         request,
         "home.html",
@@ -17,14 +18,14 @@ def home(request):
 
 
 @login_required
-def profile(request):
+def profile(request: HttpRequest) -> HttpResponse:
     return render(
         request,
         "users/profile.html",
     )
 
 
-def register(request):
+def register(request: HttpRequest) -> HttpResponse:
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
 
@@ -54,7 +55,7 @@ def register(request):
 
 
 @staff_member_required
-def user_list(request):
+def user_list(request: HttpRequest) -> HttpResponse:
     users = User.objects.all()
 
     return render(

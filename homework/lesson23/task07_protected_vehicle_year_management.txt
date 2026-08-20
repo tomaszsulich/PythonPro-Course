@@ -1,5 +1,7 @@
 # cars/admin.py
 from django.contrib import admin
+from django.http import HttpRequest
+
 from .models import Car
 
 
@@ -27,13 +29,13 @@ class CarAdmin(admin.ModelAdmin):
         "-year",
     )
 
-    def get_readonly_fields(self, request, obj=None):
+    def get_readonly_fields(self, request: HttpRequest, obj: Car | None = None) -> tuple[str, ...]:
         if obj is not None:
             return ("year",)
 
         return ()
 
-    def full_name(self, obj):
+    def full_name(self, obj: Car) -> str:
         return f"{obj.brand} {obj.model}"
 
     full_name.short_description = "Pełna nazwa"

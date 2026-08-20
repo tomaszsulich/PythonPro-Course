@@ -3,13 +3,16 @@ import time
 
 from django.contrib.auth.models import User
 from django.core.cache import cache
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views.decorators.cache import cache_page
+
 from rest_framework.decorators import api_view
+from rest_framework.request import Request
 from rest_framework.response import Response
 
 
-def cache_test(request):
+def cache_test(request: HttpRequest) -> HttpResponse:
     return render(
         request,
         "cache_lab/cache_test.html",
@@ -18,7 +21,7 @@ def cache_test(request):
 
 @cache_page(60)
 @api_view(["GET"])
-def product_list(request):
+def product_list(request: Request):
     return Response(
         {
             "products": [
@@ -30,7 +33,7 @@ def product_list(request):
     
 
 @api_view(["GET"])
-def selective_cache_view(request):
+def selective_cache_view(request: Request):
     user_count = User.objects.count()
     
     cache_key = "complex_calculation_result"
@@ -55,6 +58,7 @@ def selective_cache_view(request):
 
 # cache_lab/urls.py
 from django.urls import path
+
 from .views import cache_test, product_list, selective_cache_view
 
 

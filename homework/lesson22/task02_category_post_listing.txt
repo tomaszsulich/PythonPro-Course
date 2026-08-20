@@ -1,9 +1,11 @@
 # blog/views.py
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, render
+
 from .models import Category, Post
 
 
-def home_view(request):
+def home_view(request: HttpRequest) -> HttpResponse:
     posts = Post.objects.all()
 
     return render(
@@ -13,7 +15,7 @@ def home_view(request):
     )
 
 
-def category_view(request, category_id):
+def category_view(request: HttpRequest, category_id: int) -> HttpResponse:
     category = get_object_or_404(
         Category,
         pk=category_id,

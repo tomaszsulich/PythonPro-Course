@@ -22,7 +22,7 @@ class NoteSerializer(serializers.ModelSerializer):
             "created_at",
         ]
 
-    def validate_title(self, value):
+    def validate_title(self, value: str) -> str:
         if len(value) < 5:
             raise serializers.ValidationError(
                 "Tytuł musi mieć co najmniej 5 znaków."

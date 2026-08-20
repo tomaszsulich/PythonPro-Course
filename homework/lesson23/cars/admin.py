@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.http import HttpRequest
 from django.utils.html import format_html
 
 from .models import Car, Dealer
@@ -51,18 +52,18 @@ class CarAdmin(admin.ModelAdmin):
         "mark_as_available",
     )
 
-    def get_readonly_fields(self, request, obj=None):
+    def get_readonly_fields(self, request: HttpRequest, obj: Car | None = None) -> tuple[str, ...]:
         if obj is not None:
             return ("year",)
 
         return ()
 
-    def full_name(self, obj):
+    def full_name(self, obj: Car) -> str:
         return f"{obj.brand} {obj.model}"
 
     full_name.short_description = "Pełna nazwa"
 
-    def photo_thumbnail(self, obj):
+    def photo_thumbnail(self, obj: Car):
         if obj.photo:
             return format_html(
                 '<img src="{}" width="150">',
@@ -73,7 +74,7 @@ class CarAdmin(admin.ModelAdmin):
 
     photo_thumbnail.short_description = "Zdjęcie"
 
-    def mark_as_unavailable(self, request, queryset):
+    def mark_as_unavailable(self, request: HttpRequest, queryset) -> None:
         updated = queryset.update(is_available=False)
 
         self.message_user(
@@ -84,7 +85,7 @@ class CarAdmin(admin.ModelAdmin):
 
     mark_as_unavailable.short_description = "Oznacz jako niedostępne"
 
-    def mark_as_available(self, request, queryset):
+    def mark_as_available(self, request: HttpRequest, queryset) -> None:
         updated = queryset.update(is_available=True)
 
         self.message_user(

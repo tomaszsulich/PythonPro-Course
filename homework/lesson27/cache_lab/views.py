@@ -2,18 +2,21 @@ import time
 
 from django.contrib.auth.models import User
 from django.core.cache import cache
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
+from rest_framework.request import Request
 from rest_framework.response import Response
 
 from .models import Product
 from .serializers import ProductSerializer
 
 
-def cache_test(request):
+def cache_test(request: HttpRequest) -> HttpResponse:
     return render(
         request,
         "cache_lab/cache_test.html",
@@ -22,7 +25,7 @@ def cache_test(request):
 
 @cache_page(60)
 @api_view(["GET"])
-def product_list(request):
+def product_list(request: Request):
     return Response(
         {
             "products": [
@@ -34,7 +37,7 @@ def product_list(request):
 
 
 @api_view(["GET"])
-def selective_cache_view(request):
+def selective_cache_view(request: Request):
     user_count = User.objects.count()
 
     cache_key = "complex_calculation_result"
@@ -62,10 +65,10 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
 
     @method_decorator(cache_page(60 * 10))
-    def list(self, request, *args, **kwargs):
+    def list(self, request: Request, *args, **kwargs) -> Response:
         return super().list(request, *args, **kwargs)
 
-    def retrieve(self, request, *args, **kwargs):
+    def retrieve(self, request: Request, *args, **kwargs):
         product_id = self.kwargs["pk"]
         cache_key = f"product_detail_{product_id}"
 
@@ -85,7 +88,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
-    def perform_update(self, serializer):
+    def perform_update(self, serializer: ProductSerializer) -> None:
         serializer.save()
 
         product_id = serializer.instance.pk

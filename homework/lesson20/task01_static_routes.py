@@ -1,12 +1,12 @@
 # ogloszenia/views.py
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse
 
 
-def info(request):
+def info(request: HttpRequest):
     return HttpResponse("Informacje o stronie")
 
 
-def rules(request):
+def rules(request: HttpRequest):
     return HttpResponse("Regulamin")
 
 

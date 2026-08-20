@@ -10,7 +10,7 @@ from blog.models import Category, Post, Tag
 class Command(BaseCommand):
     help = "Seeds the blog database with categories, tags, and posts"
 
-    def handle(self, *args, **kwargs):
+    def handle(self, *args, **kwargs) -> None:
         self.stdout.write("Removing existing blog data...")
 
         Post.objects.all().delete()

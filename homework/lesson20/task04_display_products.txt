@@ -1,23 +1,23 @@
 # ogloszenia/views.py
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 
 from .models import Product
 
 
-def info(request):
+def info(request: HttpRequest):
     return HttpResponse("Informacje o stronie")
 
 
-def rules(request):
+def rules(request: HttpRequest):
     return HttpResponse("Regulamin")
 
 
-def user_profile(request, username):
+def user_profile(request: HttpRequest, username: str):
     return HttpResponse(f"Witaj na profilu, {username}!")
 
 
-def product_list(request):
+def product_list(request: HttpRequest) -> HttpResponse:
     products = Product.objects.all()
 
     return render(

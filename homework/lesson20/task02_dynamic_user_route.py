@@ -1,16 +1,16 @@
 # ogloszenia/views.py
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse
 
 
-def info(request):
+def info(request: HttpRequest):
     return HttpResponse("Informacje o stronie")
 
 
-def rules(request):
+def rules(request: HttpRequest):
     return HttpResponse("Regulamin")
 
 
-def user_profile(request, username):
+def user_profile(request: HttpRequest, username: str):
     return HttpResponse(f"Witaj na profilu, {username}!")
 
 

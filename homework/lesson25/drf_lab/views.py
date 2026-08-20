@@ -1,7 +1,9 @@
 from decimal import Decimal, InvalidOperation
+
 from rest_framework import status, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import ValidationError
+from rest_framework.request import Request
 from rest_framework.response import Response
 
 from .models import Author, Book, Note, Product
@@ -62,7 +64,7 @@ class BookViewSet(viewsets.ModelViewSet):
 
 
 @api_view(["GET"])
-def set_name(request):
+def set_name(request: Request):
     name = request.query_params.get("name", "")
 
     response = Response(
@@ -78,7 +80,7 @@ def set_name(request):
 
 
 @api_view(["GET"])
-def hello(request):
+def hello(request: Request):
     name = request.COOKIES.get(
         "user_name",
         "Gość",
@@ -90,7 +92,7 @@ def hello(request):
 
 
 @api_view(["GET"])
-def calculate(request):
+def calculate(request: Request):
     try:
         num1 = float(request.query_params.get("num1"))
         num2 = float(request.query_params.get("num2"))
