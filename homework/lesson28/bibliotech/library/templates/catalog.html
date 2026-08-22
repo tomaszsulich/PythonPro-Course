@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load polish_typography %}
+
+{% block content %}
+<h1>Katalog</h1>
+
+<form class="filters" method="get">
+  <input
+    class="filter-control filter-search"
+    name="q"
+    value="{{ q }}"
+    placeholder="Tytuł lub autor"
+  >
+
+  <select class="filter-control" name="genre" aria-label="Gatunek">
+    <option value="">Wszystkie gatunki</option>
+    {% for genre in genres %}
+      <option
+        value="{{ genre.id }}"
+        {% if selected_genre == genre.id|stringformat:"s" %}selected{% endif %}
+      >
+        {{ genre.name }}
+      </option>
+    {% endfor %}
+  </select>
+
+  <label class="availability-filter">
+    <input
+      type="checkbox"
+      name="available"
+      value="1"
+      {% if available %}checked{% endif %}
+    >
+    <span>Tylko dostępne</span>
+  </label>
+
+  <button class="filter-button" type="submit">Szukaj</button>
+</form>
+
+<div class="grid">
+  {% for book in books %}
+    <article class="card">
+      {% if book.cover %}
+        <img
+          class="card-cover"
+          src="{{ book.cover.url }}"
+          alt="Okładka: {{ book.title|polish_nbsp }}"
+        >
+      {% endif %}
+
+      <div class="card-content">
+        <h2>
+          <a href="{% url 'library:book_detail' book.id %}">
+            {{ book.title|polish_nbsp }}
+          </a>
+        </h2>
+
+        <p>
+          {% for author in book.authors.all %}
+            {{ author }}{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        </p>
+
+        <p>Dostępne egzemplarze: {{ book.available_copies_count }}</p>
+      </div>
+    </article>
+  {% empty %}
+    <p>Brak książek spełniających kryteria.</p>
+  {% endfor %}
+</div>
+{% endblock %}

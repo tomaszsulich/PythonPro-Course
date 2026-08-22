@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="auth-card">
+  <div class="auth-heading">
+    <h1>Załóż konto</h1>
+    <p>Utwórz konto, aby rezerwować dostępne egzemplarze książek.</p>
+  </div>
+
+  <form class="auth-form" method="post">
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.help_text %}
+          <div class="help-text">{{ field.help_text }}</div>
+        {% endif %}
+        {% for error in field.errors %}
+          <div class="field-error">{{ error }}</div>
+        {% endfor %}
+      </div>
+    {% endfor %}
+    <button class="primary-button" type="submit">Utwórz konto</button>
+  </form>
+
+  <p class="auth-footer">
+    Masz już konto? <a href="{% url 'login' %}">Zaloguj się</a>.
+  </p>
+</section>
+{% endblock %}

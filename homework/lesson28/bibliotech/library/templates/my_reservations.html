@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load polish_typography %}
+
+{% block content %}
+<h1>Moje rezerwacje</h1>
+<h2>Aktualne</h2>
+<ul>{% for r in current %}<li>{{ r.copy.book.title|polish_nbsp }} — {{ r.copy.inventory_code }} — do {{ r.reserved_until|date:"d.m.Y H:i" }}</li>{% empty %}<li>Brak aktualnych rezerwacji.</li>{% endfor %}</ul>
+<h2>Historia</h2>
+<ul>{% for r in history %}<li>{{ r.copy.book.title|polish_nbsp }} — {{ r.copy.inventory_code }} — do {{ r.reserved_until|date:"d.m.Y H:i" }}</li>{% empty %}<li>Brak historycznych rezerwacji.</li>{% endfor %}</ul>
+{% endblock %}

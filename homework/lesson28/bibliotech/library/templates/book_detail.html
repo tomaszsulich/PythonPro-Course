@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load polish_typography %}
+
+{% block content %}
+<section class="book-detail">
+  {% if book.cover %}
+    <img
+      class="book-detail-cover"
+      src="{{ book.cover.url }}"
+      alt="Okładka: {{ book.title }}"
+    >
+  {% endif %}
+
+  <div class="book-detail-content">
+    <h1>{{ book.title|polish_nbsp }}</h1>
+
+    <p>
+      <strong>Autorzy:</strong>
+      {% for author in book.authors.all %}
+        {{ author }}{% if not forloop.last %}, {% endif %}
+      {% endfor %}
+    </p>
+
+    <p>
+      <strong>Gatunki:</strong>
+      {% for genre in book.genres.all %}
+        {{ genre }}{% if not forloop.last %}, {% endif %}
+      {% endfor %}
+    </p>
+
+    <p><strong>Rok:</strong> {{ book.publication_year }}</p>
+    <p>{{ book.description|polish_nbsp }}</p>
+
+    <h2>Egzemplarze</h2>
+    <ul>
+      {% for copy in book.copies.all %}
+        <li>
+          {{ copy.inventory_code }} —
+          {% if copy.available %}dostępny{% else %}niedostępny{% endif %}
+
+          {% if user.is_authenticated and copy.available %}
+            <form
+              class="inline"
+              method="post"
+              action="{% url 'library:reserve' copy.id %}"
+            >
+              {% csrf_token %}
+              <button>Zarezerwuj na 14 dni</button>
+            </form>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endblock %}
