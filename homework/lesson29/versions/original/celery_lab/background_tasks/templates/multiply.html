@@ -1,0 +1,6 @@
+<form method="post">
+    {% csrf_token %}
+    <input type="number" name="a" step="any" required>
+    <input type="number" name="b" step="any" required>
+    <button type="submit">Multiply</button>
+</form>
