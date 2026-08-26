@@ -1,0 +1,7 @@
+﻿{
+    "id":  3,
+    "type":  "sensor",
+    "name":  "sensor-3",
+    "value":  21,
+    "active":  true
+}

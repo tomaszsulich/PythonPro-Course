@@ -1,0 +1,1 @@
+﻿Mały skrypt wykonał swoje zadanie i nie zażądał przy tym instalacji kolejnego frameworka.

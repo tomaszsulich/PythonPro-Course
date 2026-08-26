@@ -1,0 +1,4 @@
+﻿book_id,days,status
+B001,14,returned
+B002,7,active
+B003,21,overdue

@@ -1,0 +1,4 @@
+﻿package,city,status
+PK001,Łódź,delivered
+PK002,Toruń,transit
+PK003,Opole,sorting

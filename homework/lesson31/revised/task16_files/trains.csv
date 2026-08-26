@@ -1,0 +1,4 @@
+﻿number,origin,destination,delay_min
+IC101,Warszawa,Kraków,0
+IC204,Gdańsk,Poznań,12
+TLK331,Lublin,Warszawa,4

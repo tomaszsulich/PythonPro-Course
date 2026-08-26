@@ -1,0 +1,4 @@
+﻿host,latency_ms,status
+server01,12,online
+server02,37,online
+server03,0,offline
