@@ -1,0 +1,17 @@
+bc5189ed-a51f-471a-a59c-9f3fb20de89c | GET / | 0.0007 s
+c9f1a4f3-c2b5-4280-b2ba-54026a9b17a6 | GET /docs | 0.0008 s
+492524a0-2e0d-475f-8d4e-f13a88407128 | GET /openapi.json | 0.0110 s
+fb8b79f7-67c0-447d-a687-ec255dbb442a | GET /books | 0.0071 s
+56091478-fcb6-4965-9e64-c6135dea99e4 | POST /books | 0.0155 s
+738713d1-9b1c-40f9-ac59-7a618c9a227b | GET /books/1 | 0.0044 s
+a5e8853f-6d12-4a45-9d89-41afe36d1f1e | DELETE /books/999 | 0.0032 s
+451b564a-3b05-483f-a0c7-10121a71e243 | GET /books | 0.0016 s
+cba8fc9f-d077-4989-8db7-7c5bdad7dabc | GET /books/3 | 0.0020 s
+463e9c8a-d881-48ec-9ad2-bf4562f2a931 | PUT /books/4 | 0.0103 s
+36969283-3f51-488c-b559-310856a377b7 | GET /books | 0.0017 s
+fcc12eab-a808-492e-aa8a-d76406b8da5e | PUT /books/4 | 0.0094 s
+e1bb91a6-d391-4bd3-a3e3-e9b9bc308139 | POST /books | 0.0095 s
+8e667997-c523-43e3-966f-0f60da5d0986 | DELETE /books/999 | 0.0035 s
+43f45e55-bab1-4694-a7fc-0abda2454c01 | GET /books | 0.0019 s
+c64f67ce-6752-439c-971a-610141a63f86 | DELETE /books/4 | 0.0093 s
+716a56fb-c306-48ff-8112-70f6e53c920e | GET /books | 0.0016 s
