@@ -1,0 +1,61 @@
+from typing import Optional
+
+import strawberry
+from aiohttp import web
+from strawberry.aiohttp.views import GraphQLView
+
+
+@strawberry.type
+class User:
+    id: strawberry.ID
+    name: str
+    email: str
+
+
+fake_users_db = [
+    User(id=strawberry.ID("1"), name="Jan Kowalski", email="jan@example.com"),
+    User(id=strawberry.ID("2"), name="Anna Nowak", email="anna@example.com"),
+]
+
+
+@strawberry.type
+class Query:
+    @strawberry.field
+    def user(self, id: strawberry.ID) -> Optional[User]:
+        for user in fake_users_db:
+            if user.id == id:
+                return user
+
+        return None
+
+    @strawberry.field
+    def users(self) -> list[User]:
+        return fake_users_db
+
+
+@strawberry.type
+class Mutation:
+    @strawberry.mutation
+    def create_user(self, name: str, email: str) -> User:
+        new_id = strawberry.ID(
+            str(max(int(user.id) for user in fake_users_db) + 1)
+        )
+        new_user = User(id=new_id, name=name, email=email)
+        
+        fake_users_db.append(new_user)
+        return new_user
+
+
+schema = strawberry.Schema(query=Query, mutation=Mutation)
+
+app = web.Application()
+app.router.add_route(
+    "*",
+    "/graphql",
+    GraphQLView(schema=schema),
+)
+
+
+if __name__ == "__main__":
+    print("🚀 GraphQL API działa na http://localhost:8000/graphql")
+    web.run_app(app, host="localhost", port=8000)
